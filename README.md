@@ -40,7 +40,9 @@ _Assuming you are working on branch called `my_branch`_
 8. Once all conflicts are resolved:
 9. `$ git add -A && git rebase --continue`
 10. if there are further conflicts then repeat steps 5 -> 9
-11. Once the rebase has finished, `git push -f origin my_branch`
+11. Once the rebase has finished: 
+    * `git commit -m "Commit message"`
+    * `git push -f origin my_branch`
 
 This will force push the correct changes to your branch.
 
