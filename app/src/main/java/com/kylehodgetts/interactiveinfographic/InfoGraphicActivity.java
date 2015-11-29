@@ -14,6 +14,3 @@ public class InfoGraphicActivity extends AppCompatActivity {
         new GetEducationDataTask().execute("http://api.worldbank.org/countries/gbr/indicators/SL.UEM.1524.ZS?&date=1991:2013&format=json");
     }
 }
-
-
-
