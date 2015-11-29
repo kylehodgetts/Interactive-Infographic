@@ -1,3 +1,7 @@
+general:
+  artifacts:
+    "-/home/ubuntu/interactiveinfographic/build/outputs/reports/com.kylehodgetts.interactiveinfographic/connected"
+
 machine:
   environment:
     ANDROID_HOME: /home/ubuntu/android
@@ -13,12 +17,12 @@ dependencies:
 
 test:
   pre:
-    - $ANDROID_HOME/tools/emulator -avd testAVD -no-skin -no-audio -no-window:
+    - "$ANDROID_HOME/tools/emulator" -avd testAVD -no-skin -no-audio -no-window:
       background: true
-    - (./gradlew assembleDebug):
+    - ("./gradlew assembleDebug"):
       timeout: 1200
-    - (./gradlew assembleDebugTest):
+    - ("./gradlew assembleDebugTest"):
       timeout: 1200
-    - (source scripts/environmentSetup.sh && waitForAVD)
+    - ("source scripts/environmentSetup.sh && waitForAVD")
   override:
-    - (./gradlew connectedAndroidTest)
+    - ("./gradlew connectedAndroidTest")
