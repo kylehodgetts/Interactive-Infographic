@@ -2,18 +2,18 @@ package com.kylehodgetts.interactiveinfographic;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
+
+import com.kylehodgetts.interactiveinfographic.controller.data.GetEducationDataTask;
+
 public class InfoGraphicActivity extends AppCompatActivity {
-    TextView txtV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infographic);
-        txtV = (TextView) findViewById(R.id.txtListit);
-        new PullData().execute("http://api.worldbank.org/countries/gbr/indicators/SL.UEM.1524.ZS?format=json");
+        new GetEducationDataTask().execute("http://api.worldbank.org/countries/gbr/indicators/SL.UEM.1524.ZS?&date=1991:2013&format=json");
     }
-    }
+}
 
 
 
