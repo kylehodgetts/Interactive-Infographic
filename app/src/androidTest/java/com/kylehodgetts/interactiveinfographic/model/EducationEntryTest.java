@@ -16,7 +16,6 @@ public class EducationEntryTest extends TestCase {
     private static final int YEAR = 1990;
     private static final double VALUE = 23.12;
 
-
     private EducationEntry educationEntry;
 
     @BeforeClass

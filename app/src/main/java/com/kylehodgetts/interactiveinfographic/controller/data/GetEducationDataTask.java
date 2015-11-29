@@ -46,8 +46,11 @@ public class GetEducationDataTask extends AsyncTask<String, EducationEntry, Void
 
     protected Void doInBackground(String... params) {
         try {
+            /* Get JSON object, extracting the second array in the object, where the data is */
             JSONArray jsonObject = new JSONArray(readData(params[0]));
             JSONArray array = jsonObject.getJSONArray(1);
+
+            /* Iterate through JSONArray to parse values for each EducationEntry field */
             for (int i = 0; i < array.length(); i++) {
                 JSONObject data = jsonObject.getJSONArray(1).getJSONObject(i);
                 JSONObject countryData = data.getJSONObject("country");
@@ -64,9 +67,15 @@ public class GetEducationDataTask extends AsyncTask<String, EducationEntry, Void
     }
 
     protected void onProgressUpdate(EducationEntry... educationEntry) {
+        //TODO Decide what we are going to do with the education entry once created
         Log.d("pull: ", educationEntry[0].toString());
     }
 
+    /**
+     *
+     * @param value decimal value to be formatted, in string form
+     * @return decimal value rounded to 2 decimal places
+     */
     private double formatData(String value) {
         DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
         String formattedValue = DECIMAL_FORMAT.format(Double.parseDouble(value));
