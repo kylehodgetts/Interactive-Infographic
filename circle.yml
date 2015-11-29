@@ -1,7 +1,3 @@
-general:
-  artifacts:
-    -/home/ubuntu/interactiveinfographic/build/outputs/reports/com.kylehodgetts.interactiveinfographic/connected
-
 machine:
   environment:
     ANDROID_HOME: /home/ubuntu/android
