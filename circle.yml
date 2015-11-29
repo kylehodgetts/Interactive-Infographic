@@ -1,0 +1,4 @@
+test:
+  override:
+    - ./bin/test.sh:
+        parallel: true
