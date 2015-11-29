@@ -1,17 +1,30 @@
+#!/bin/bash
 
-NODE_TOTAL=${CIRCLE_NODE_TOTAL:-1}
-NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
+# Fix the CircleCI path
+function getAndroidSDK(){
+  export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH"
 
-i=0
-tests=()
-for file in $(find ./src/test/java -name "*Test.java" | sort)
-do
-if [ $(($i % ${NODE_TOTAL})) -eq ${NODE_INDEX} ]
-then
-test=`basename $file | sed -e "s/.java//"`
-tests+="${test},"
-fi
-((i++))
-done
+  DEPS="$ANDROID_HOME/installed-dependencies"
 
-mvn -Dtest=${tests} test
+  if [ ! -e $DEPS ]; then
+    cp -r /usr/local/android-sdk-linux $ANDROID_HOME &&
+    echo y | android update sdk -u -a -t android-19 &&
+    echo y | android update sdk -u -a -t platform-tools &&
+    echo y | android update sdk -u -a -t build-tools-21.1.2 &&
+    echo y | android update sdk -u -a -t sys-img-x86-android-19 &&
+    #echo y | android update sdk -u -a -t addon-google_apis-google-19 &&
+    echo no | android create avd -n testAVD -f -t android-19 --abi default/x86 &&
+    touch $DEPS
+  fi
+}
+function waitAVD {
+    (
+    local bootanim=""
+    export PATH=$(dirname $(dirname $(which android)))/platform-tools:$PATH
+    until [[ "$bootanim" =~ "stopped" ]]; do
+      sleep 5
+      bootanim=$(adb -e shell getprop init.svc.bootanim 2>&1)
+      echo "emulator status=$bootanim"
+    done
+    )
+}
