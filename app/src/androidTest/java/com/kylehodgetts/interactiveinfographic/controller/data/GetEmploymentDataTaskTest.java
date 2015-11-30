@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Kyle Hodgetts
  * @version 1.0
- * Tests that the education data task fetcher runs as expected
+ * Tests that the Employment data task fetcher runs as expected
  */
 public class GetEmploymentDataTaskTest extends InstrumentationTestCase {
     private static final String URL =   "http://api.worldbank.org/countries/gbr" +
