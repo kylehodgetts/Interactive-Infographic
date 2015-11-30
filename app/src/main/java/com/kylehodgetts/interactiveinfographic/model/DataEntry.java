@@ -45,7 +45,7 @@ public abstract class DataEntry {
      *
      * @return data indicator
      */
-    public String getIndicator() {
+    protected String getIndicator() {
         return indicator;
     }
 
