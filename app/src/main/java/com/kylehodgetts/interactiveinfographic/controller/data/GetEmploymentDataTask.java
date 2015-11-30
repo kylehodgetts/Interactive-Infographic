@@ -2,17 +2,18 @@ package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.util.Log;
 
-import com.kylehodgetts.interactiveinfographic.model.EducationEntry;
+import com.kylehodgetts.interactiveinfographic.model.EmploymentEntry;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  * @author Kyle Hodgetts
+ * @author Bau Nguyen
  * @version 1.0
- * AsyncTask that retrieves the Education data from the World Bank API
+ * AsyncTask that retrieves the Employment data from the World Bank API
  */
-public class GetEducationDataTask extends GetDataTask<EducationEntry> {
+public class GetEmploymentDataTask extends GetDataTask<EmploymentEntry>{
 
     @Override
     protected Void doInBackground(String... params) {
@@ -36,7 +37,7 @@ public class GetEducationDataTask extends GetDataTask<EducationEntry> {
                 }
                 double dataValue = super.formatData(value);
                 int year = Integer.parseInt(data.getString("date"));
-                publishProgress(new EducationEntry(indicator, countryCode, country, year, dataValue));
+                publishProgress(new EmploymentEntry(indicator, countryCode, country, year, dataValue));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +46,8 @@ public class GetEducationDataTask extends GetDataTask<EducationEntry> {
     }
 
     @Override
-    protected void onProgressUpdate(EducationEntry... educationEntry) {
-        Log.d("pull: ", educationEntry[0].toString());
+    protected void onProgressUpdate(EmploymentEntry... employmentEntry) {
+        Log.d("pull: ", employmentEntry[0].toString());
     }
+
 }
