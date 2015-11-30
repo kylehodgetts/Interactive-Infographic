@@ -1,7 +1,9 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.EducationEntry;
 
 import org.json.JSONArray;
@@ -13,6 +15,11 @@ import org.json.JSONObject;
  * AsyncTask that retrieves the Education data from the World Bank API
  */
 public class GetEducationDataTask extends GetDataTask<EducationEntry> {
+    private Context applicationContext;
+
+    public GetEducationDataTask(Context context) {
+        this.applicationContext = context;
+    }
 
     @Override
     protected Void doInBackground(String... params) {
@@ -45,7 +52,8 @@ public class GetEducationDataTask extends GetDataTask<EducationEntry> {
     }
 
     @Override
-    protected void onProgressUpdate(EducationEntry... educationEntry) {
-        Log.d("pull: ", educationEntry[0].toString());
+    protected void onProgressUpdate(EducationEntry... educationEntries) {
+        Log.d("pull: ", educationEntries[0].toString());
+        DataBank.getDataBank(applicationContext).addEducationEntry(educationEntries[0]);
     }
 }
