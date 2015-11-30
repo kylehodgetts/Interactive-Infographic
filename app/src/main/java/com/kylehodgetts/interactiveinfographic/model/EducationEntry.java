@@ -3,9 +3,9 @@ package com.kylehodgetts.interactiveinfographic.model;
 /**
  * @author Kyle Hodgetts
  * @version 1.0
- * Models Employment data entry for one year
+ * Models Education data entry for one year
  */
-public class EmploymentEntry extends DataEntry {
+public class EducationEntry extends DataEntry {
 
     /**
      * Default Constructor
@@ -15,7 +15,7 @@ public class EmploymentEntry extends DataEntry {
      * @param country       The country the data is related to
      * @param countryCode   Shorthand code for the given country
      */
-    public EmploymentEntry(String indicator, String countryCode, String country, int year, double value) {
+    public EducationEntry(String indicator, String countryCode, String country, int year, double value) {
         super(indicator, countryCode, country, year, value);
     }
 }

@@ -2,7 +2,7 @@ package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.test.InstrumentationTestCase;
 
-import com.kylehodgetts.interactiveinfographic.model.EmploymentEntry;
+import com.kylehodgetts.interactiveinfographic.model.EducationEntry;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -16,10 +16,10 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * Tests that the education data task fetcher runs as expected
  */
-public class GetEmploymentDataTaskTest extends InstrumentationTestCase {
-    private static final String URL =   "http://api.worldbank.org/countries/gbr" +
-                                        "/indicators/SL.UEM.1524.ZS?" +
-                                        "&date=1991:2013&format=json";
+public class GetEducationDataTaskTest extends InstrumentationTestCase {
+    private static final String URL =   "http://api.worldbank.org/countries/gbr/" +
+                                        "indicators/SE.XPD.TOTL.GD.ZS?&" +
+                                        "date=1991:2013&format=json";
     private boolean called;
 
     @BeforeClass
@@ -40,7 +40,7 @@ public class GetEmploymentDataTaskTest extends InstrumentationTestCase {
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new GetEmploymentDataTask(){
+                new GetEducationDataTask() {
                     @Override
                     protected Void doInBackground(String... params) {
                         called = true;
@@ -48,9 +48,9 @@ public class GetEmploymentDataTaskTest extends InstrumentationTestCase {
                     }
 
                     @Override
-                    protected void onProgressUpdate(EmploymentEntry... employmentEntry) {
+                    protected void onProgressUpdate(EducationEntry... educationEntries) {
                         signal.countDown();
-                        assertNotNull(employmentEntry[0]);
+                        assertNotNull(educationEntries[0]);
                     }
                 }.execute(URL);
             }

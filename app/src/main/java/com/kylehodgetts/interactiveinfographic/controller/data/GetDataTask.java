@@ -13,7 +13,8 @@ import java.text.DecimalFormat;
 /**
  * @author Kyle Hodgetts
  * @version 1.0
- * Base class for downloading
+ * Base class for downloading data from World Bank API
+ * @see {@link 'http://data.worldbank.org/developers'}
  */
 public abstract class GetDataTask<T> extends AsyncTask<String, T, Void> {
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.00");
