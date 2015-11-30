@@ -1,7 +1,9 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.EmploymentEntry;
 
 import org.json.JSONArray;
@@ -13,7 +15,12 @@ import org.json.JSONObject;
  * @version 1.0
  * AsyncTask that retrieves the Employment data from the World Bank API
  */
-public class GetEmploymentDataTask extends GetDataTask<EmploymentEntry>{
+public class GetEmploymentDataTask extends GetDataTask<EmploymentEntry> {
+    private Context applicationContext;
+
+    public GetEmploymentDataTask(Context context) {
+        this.applicationContext = context;
+    }
 
     @Override
     protected Void doInBackground(String... params) {
@@ -46,8 +53,9 @@ public class GetEmploymentDataTask extends GetDataTask<EmploymentEntry>{
     }
 
     @Override
-    protected void onProgressUpdate(EmploymentEntry... employmentEntry) {
-        Log.d("pull: ", employmentEntry[0].toString());
+    protected void onProgressUpdate(EmploymentEntry... employmentEntries) {
+        Log.d("pull: ", employmentEntries[0].toString());
+        DataBank.getDataBank(applicationContext).addEmploymentEntry(employmentEntries[0]);
     }
 
 }

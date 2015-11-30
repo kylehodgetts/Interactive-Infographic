@@ -2,6 +2,7 @@ package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.test.InstrumentationTestCase;
 
+import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.EducationEntry;
 
 import org.junit.AfterClass;
@@ -40,7 +41,7 @@ public class GetEducationDataTaskTest extends InstrumentationTestCase {
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new GetEducationDataTask() {
+                new GetEducationDataTask(getInstrumentation().getContext()) {
                     @Override
                     protected Void doInBackground(String... params) {
                         called = true;
@@ -50,7 +51,10 @@ public class GetEducationDataTaskTest extends InstrumentationTestCase {
                     @Override
                     protected void onProgressUpdate(EducationEntry... educationEntries) {
                         signal.countDown();
-                        assertNotNull(educationEntries[0]);
+                        assertNotNull("Progress Education Entry was null", educationEntries[0]);
+                        DataBank dataBank = DataBank.getDataBank(getInstrumentation().getContext());
+                        assertNotNull("Education Entry was not added to data bank",
+                                      dataBank.getEducationEntries().get(0));
                     }
                 }.execute(URL);
             }

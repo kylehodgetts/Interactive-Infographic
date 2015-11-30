@@ -1,5 +1,6 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
