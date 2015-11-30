@@ -2,8 +2,7 @@ package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.test.InstrumentationTestCase;
 
-import com.kylehodgetts.interactiveinfographic.controller.data.GetEducationDataTask;
-import com.kylehodgetts.interactiveinfographic.model.EducationEntry;
+import com.kylehodgetts.interactiveinfographic.model.EmploymentEntry;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * Tests that the education data task fetcher runs as expected
  */
-public class GetEducationDataTaskTest extends InstrumentationTestCase {
+public class GetEmploymentDataTaskTest extends InstrumentationTestCase {
     private static final String URL = "http://api.worldbank.org/countries/gbr/indicators/SL.UEM.1524.ZS?&date=1991:2013&format=json";
     private boolean called;
 
@@ -39,7 +38,7 @@ public class GetEducationDataTaskTest extends InstrumentationTestCase {
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new GetEducationDataTask(){
+                new GetEmploymentDataTask(){
                     @Override
                     protected Void doInBackground(String... params) {
                         called = true;
@@ -47,9 +46,9 @@ public class GetEducationDataTaskTest extends InstrumentationTestCase {
                     }
 
                     @Override
-                    protected void onProgressUpdate(EducationEntry... educationEntry) {
+                    protected void onProgressUpdate(EmploymentEntry... employmentEntry) {
                         signal.countDown();
-                        assertNotNull(educationEntry[0]);
+                        assertNotNull(employmentEntry[0]);
                     }
                 }.execute(URL);
             }

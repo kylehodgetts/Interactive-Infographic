@@ -3,7 +3,7 @@ package com.kylehodgetts.interactiveinfographic;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.kylehodgetts.interactiveinfographic.controller.data.GetEducationDataTask;
+import com.kylehodgetts.interactiveinfographic.controller.data.GetEmploymentDataTask;
 
 public class InfoGraphicActivity extends AppCompatActivity {
     private static final String EDUCATION_URL = "http://api.worldbank.org/countries/gbr" +
@@ -14,6 +14,6 @@ public class InfoGraphicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infographic);
-        new GetEducationDataTask().execute(EDUCATION_URL);
+        new GetEmploymentDataTask().execute(EDUCATION_URL);
     }
 }

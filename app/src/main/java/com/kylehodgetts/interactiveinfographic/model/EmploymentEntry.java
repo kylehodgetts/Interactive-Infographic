@@ -5,7 +5,7 @@ package com.kylehodgetts.interactiveinfographic.model;
  * @version 1.0
  * Models Education data entry for one year
  */
-public class EducationEntry {
+public class EmploymentEntry {
     private String countryCode;
     private String country;
     private int year;
@@ -18,7 +18,7 @@ public class EducationEntry {
      * @param country       The country the data is related to
      * @param countryCode   Shorthand code for the given country
      */
-    public EducationEntry(String countryCode, String country, int year, double value) {
+    public EmploymentEntry(String countryCode, String country, int year, double value) {
         this.countryCode = countryCode;
         this.country = country;
         this.year = year;
