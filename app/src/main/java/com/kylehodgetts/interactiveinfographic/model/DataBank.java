@@ -13,8 +13,8 @@ public class DataBank {
     private static DataBank dataBank;
     private Context appContext;
 
-    private ArrayList<EducationEntry> educationEntries;
-    private ArrayList<EmploymentEntry> employmentEntries;
+    private ArrayList<DataEntry> educationEntries;
+    private ArrayList<DataEntry> employmentEntries;
 
     private DataBank(Context context) {
         this.appContext = context;
@@ -36,33 +36,33 @@ public class DataBank {
 
     /**
      * Adds a new Education Entry to the DataBank
-     * @param educationEntry <code>EducationEntry</code> to add
+     * @param educationEntry <code>DataEntry</code> to add
      */
-    public void addEducationEntry(EducationEntry educationEntry) {
+    public void addEducationEntry(DataEntry educationEntry) {
         educationEntries.add(educationEntry);
     }
 
     /**
      * Adds a new Employment Entry to the DataBank
-     * @param employmentEntry <code>EmploymentEntry</code> to add
+     * @param employmentEntry <code>DataEntry</code> to add
      */
-    public void addEmploymentEntry(EmploymentEntry employmentEntry) {
+    public void addEmploymentEntry(DataEntry employmentEntry) {
         employmentEntries.add(employmentEntry);
     }
 
     /**
      *
-     * @return Collection of <code>EducationEntries</code>
+     * @return Collection of <code>DataEntry</code>s
      */
-    public ArrayList<EducationEntry> getEducationEntries() {
+    public ArrayList<DataEntry> getEducationEntries() {
         return educationEntries;
     }
 
     /**
      *
-     * @return Collection of <code>EmploymentEntries</code>
+     * @return Collection of <code>DataEntry</code>s
      */
-    public ArrayList<EmploymentEntry> getEmploymentEntries() {
+    public ArrayList<DataEntry> getEmploymentEntries() {
         return employmentEntries;
     }
 }

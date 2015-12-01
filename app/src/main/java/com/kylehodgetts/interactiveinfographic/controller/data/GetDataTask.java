@@ -1,7 +1,11 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
-import android.content.Context;
 import android.os.AsyncTask;
+
+import com.kylehodgetts.interactiveinfographic.model.DataEntry;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,10 +21,36 @@ import java.text.DecimalFormat;
  * Base class for downloading data from World Bank API
  * @see {@link 'http://data.worldbank.org/developers'}
  */
-public abstract class GetDataTask<T> extends AsyncTask<String, T, Void> {
+public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.00");
 
-    protected String readData(String urlName) throws IOException {
+    protected Void doInBackground(String... params) {
+        try {
+            /* Get JSON object, extracting the second array in the object, where the data is */
+            JSONArray array = new JSONArray(readData(params[0])).getJSONArray(1);
+            String previousDataValue = "0.0";
+
+            /* Iterate through JSONArray to parse values for each EmploymentEntry field */
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject data = array.getJSONObject(i);
+                String indicator = data.getJSONObject("indicator").getString("value").split(",")[0];
+                String countryCode = data.getJSONObject("country").getString("id");
+                String country = data.getJSONObject("country").getString("value");
+                String value = data.getString("value");
+                if(value.equals("null")) {
+                    value = previousDataValue;
+                }
+                double dataValue = formatData(value);
+                int year = Integer.parseInt(data.getString("date"));
+                publishProgress(new DataEntry(indicator, countryCode, country, year, dataValue));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String readData(String urlName) throws IOException {
         StringBuffer buffer = new StringBuffer();
         URL url = new URL(urlName);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -44,13 +74,10 @@ public abstract class GetDataTask<T> extends AsyncTask<String, T, Void> {
      * @param value decimal value to be formatted, in string form
      * @return decimal value rounded to 2 decimal places
      */
-    protected double formatData(String value) {
+    private double formatData(String value) {
         DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
         String formattedValue = DECIMAL_FORMAT.format(Double.parseDouble(value));
         double dataValue = Double.parseDouble(formattedValue);
         return dataValue;
     }
-
-    protected abstract Void doInBackground(String... params);
-    protected abstract void onProgressUpdate(T... data);
 }

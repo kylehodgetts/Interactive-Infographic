@@ -31,14 +31,14 @@ public class DataBankTest extends InstrumentationTestCase {
 
     @Test
     public void testAddEducationEntry() throws Exception {
-        dataBank.addEducationEntry(new EducationEntry("a", "b", "c", 1, 2));
+        dataBank.addEducationEntry(new DataEntry("a", "b", "c", 1, 2));
         assertNotNull("EducationEntries ArrayList was null", dataBank.getEducationEntries());
         assertNotNull("Added Education Entry returned null", dataBank.getEducationEntries().get(0));
     }
 
     @Test
     public void testAddEmploymentEntry() throws Exception {
-        dataBank.addEmploymentEntry(new EmploymentEntry("a", "b", "c", 1, 2));
+        dataBank.addEmploymentEntry(new DataEntry("a", "b", "c", 1, 2));
         assertNotNull("EmploymentEntries ArrayList was null", dataBank.getEmploymentEntries());
         assertNotNull("Added Employment Entry returned null", dataBank.getEmploymentEntries().get(0));
     }

@@ -3,7 +3,7 @@ package com.kylehodgetts.interactiveinfographic.controller.data;
 import android.test.InstrumentationTestCase;
 
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
-import com.kylehodgetts.interactiveinfographic.model.EmploymentEntry;
+import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -49,9 +49,9 @@ public class GetEmploymentDataTaskTest extends InstrumentationTestCase {
                     }
 
                     @Override
-                    protected void onProgressUpdate(EmploymentEntry... employmentEntry) {
+                    protected void onProgressUpdate(DataEntry... dataEntries) {
                         signal.countDown();
-                        assertNotNull("Progress Employment Entry was null", employmentEntry[0]);
+                        assertNotNull("Progress Employment Entry was null", dataEntries[0]);
                         DataBank dataBank = DataBank.getDataBank(getInstrumentation().getContext());
                         assertNotNull("Employment Entry was not added to data bank",
                                       dataBank.getEmploymentEntries().get(0));

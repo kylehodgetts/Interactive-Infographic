@@ -5,7 +5,7 @@ package com.kylehodgetts.interactiveinfographic.model;
  * @version 1.0
  * Models base data entry for one year
  */
-public abstract class DataEntry {
+public class DataEntry {
     protected String indicator;
     protected String countryCode;
     protected String country;
@@ -20,7 +20,7 @@ public abstract class DataEntry {
      * @param country       The country the data is related to
      * @param countryCode   Shorthand code for the given country
      */
-    protected DataEntry(String indicator, String countryCode, String country, int year, double value) {
+    public DataEntry(String indicator, String countryCode, String country, int year, double value) {
         this.indicator = indicator;
         this.countryCode = countryCode;
         this.country = country;
