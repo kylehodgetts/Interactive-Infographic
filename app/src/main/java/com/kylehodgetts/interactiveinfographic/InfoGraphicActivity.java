@@ -8,13 +8,15 @@ import com.kylehodgetts.interactiveinfographic.controller.data.GetEmploymentData
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 
 public class InfoGraphicActivity extends AppCompatActivity {
-    private static final String EMPLOYMENT_URL = "http://api.worldbank.org/countries/gbr" +
-                                                 "/indicators/SL.UEM.1524.ZS?" +
-                                                 "&date=1991:2013&format=json";
+    private static final String EMPLOYMENT_URL =
+            "http://api.worldbank.org/countries/gbr" +
+            "/indicators/SL.UEM.1524.ZS?" +
+            "&date=1991:2013&format=json";
 
-    private static final String EDUCATION_URL = "http://api.worldbank.org/countries/gbr/" +
-                                                "indicators/SE.XPD.TOTL.GD.ZS?&" +
-                                                "date=1991:2013&format=json";
+    private static final String EDUCATION_URL =
+            "http://api.worldbank.org/countries/gbr/" +
+            "indicators/SE.XPD.TOTL.GD.ZS?&" +
+            "date=1991:2013&format=json";
 
     private DataBank dataBank;
 
@@ -22,8 +24,9 @@ public class InfoGraphicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infographic);
+        dataBank = DataBank.getDataBank(getApplicationContext());
+
         new GetEmploymentDataTask(getApplicationContext()).execute(EMPLOYMENT_URL);
         new GetEducationDataTask(getApplicationContext()).execute(EDUCATION_URL);
-        dataBank = DataBank.getDataBank(getApplicationContext());
     }
 }
