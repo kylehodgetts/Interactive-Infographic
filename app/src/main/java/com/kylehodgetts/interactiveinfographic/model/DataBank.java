@@ -1,6 +1,7 @@
 package com.kylehodgetts.interactiveinfographic.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -10,8 +11,9 @@ import java.util.ArrayList;
  * Central data store for all <code>DataEntry</code>s
  */
 public class DataBank {
+    private static final String TAG = "DATA-BANK";
     private static DataBank dataBank;
-    private Context appContext;
+    Context appContext;
 
     private ArrayList<DataEntry> educationEntries;
     private ArrayList<DataEntry> employmentEntries;
@@ -40,6 +42,7 @@ public class DataBank {
      */
     public void addEducationEntry(DataEntry educationEntry) {
         educationEntries.add(educationEntry);
+        Log.d(TAG, educationEntry.toString() + " added to educationEntries");
     }
 
     /**
@@ -48,6 +51,8 @@ public class DataBank {
      */
     public void addEmploymentEntry(DataEntry employmentEntry) {
         employmentEntries.add(employmentEntry);
+        Log.d(TAG, employmentEntry.toString() + " added to employmentEntries");
+
     }
 
     /**

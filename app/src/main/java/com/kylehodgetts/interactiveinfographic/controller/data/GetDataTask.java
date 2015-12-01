@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 
@@ -31,13 +32,15 @@ import java.text.DecimalFormat;
 public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.00");
     protected Context context;
+    private String fileName;
 
     /**
      * Protected Constructor
      * @param context current application context
      */
-    protected GetDataTask(Context context) {
+    protected GetDataTask(Context context, String fileName) {
         this.context = context;
+        this.fileName = fileName;
     }
 
     protected Void doInBackground(String... params) {
@@ -67,10 +70,11 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     }
 
     private String readData(String urlName) throws Exception {
-        StringBuffer buffer;
-        File file = new File(context.getCacheDir(), "data.txt");
+        StringBuilder builder;
+        File file = new File(context.getCacheDir(), this.fileName);
         /* Download data and cache */
         if(networkIsAvailable()) {
+            Log.d("Network ", "is available");
             if(file.exists()) {
                 file.delete();
             }
@@ -84,24 +88,24 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
             BufferedReader in;
             in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine = in.readLine();
-            buffer = new StringBuffer();
+            builder = new StringBuilder();
             while (inputLine != null) {
-                buffer.append(inputLine);
+                builder.append(inputLine);
                 inputLine = in.readLine();
             }
             in.close();
             connection.disconnect();
             ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
-            outputStream.writeObject(buffer);
+            outputStream.writeObject(builder);
             outputStream.flush();
             outputStream.close();
         }
         /* Read from cache */
         else {
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
-            buffer = (StringBuffer) objectInputStream.readObject();
+            builder = (StringBuilder) objectInputStream.readObject();
         }
-        return(buffer.toString());
+        return(builder.toString());
     }
 
     /**
@@ -112,8 +116,7 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     private double formatData(String value) {
         DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
         String formattedValue = DECIMAL_FORMAT.format(Double.parseDouble(value));
-        double dataValue = Double.parseDouble(formattedValue);
-        return dataValue;
+        return Double.parseDouble(formattedValue);
     }
 
     /**

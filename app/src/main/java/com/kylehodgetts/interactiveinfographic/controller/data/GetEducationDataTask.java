@@ -2,6 +2,7 @@ package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
@@ -12,13 +13,13 @@ import com.kylehodgetts.interactiveinfographic.model.DataEntry;
  * AsyncTask that retrieves the Education data from the World Bank API
  */
 public class GetEducationDataTask extends GetDataTask {
-
+    private static final String CACHE_FILE = "education.txt";
     /**
      * Default Constructor
      * @param context current application context
      */
     public GetEducationDataTask(Context context) {
-        super(context);
+        super(context, CACHE_FILE);
     }
 
     @Override
