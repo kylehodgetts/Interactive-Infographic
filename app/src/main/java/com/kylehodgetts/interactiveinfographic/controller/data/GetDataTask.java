@@ -1,5 +1,8 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
@@ -8,8 +11,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -23,6 +30,15 @@ import java.text.DecimalFormat;
  */
 public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.00");
+    protected Context context;
+
+    /**
+     * Protected Constructor
+     * @param context current application context
+     */
+    protected GetDataTask(Context context) {
+        this.context = context;
+    }
 
     protected Void doInBackground(String... params) {
         try {
@@ -50,22 +66,41 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
         return null;
     }
 
-    private String readData(String urlName) throws IOException {
-        StringBuffer buffer = new StringBuffer();
-        URL url = new URL(urlName);
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setDoInput(true);
-        connection.connect();
-        BufferedReader in;
-        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine = in.readLine();
-        while (inputLine != null) {
-            buffer.append(inputLine);
-            inputLine = in.readLine();
+    private String readData(String urlName) throws Exception {
+        StringBuffer buffer;
+        File file = new File(context.getCacheDir(), "data.txt");
+        /* Download data and cache */
+        if(networkIsAvailable()) {
+            if(file.exists()) {
+                file.delete();
+            }
+            file.createNewFile();
+
+            URL url = new URL(urlName);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.connect();
+            BufferedReader in;
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine = in.readLine();
+            buffer = new StringBuffer();
+            while (inputLine != null) {
+                buffer.append(inputLine);
+                inputLine = in.readLine();
+            }
+            in.close();
+            connection.disconnect();
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
+            outputStream.writeObject(buffer);
+            outputStream.flush();
+            outputStream.close();
         }
-        in.close();
-        connection.disconnect();
+        /* Read from cache */
+        else {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+            buffer = (StringBuffer) objectInputStream.readObject();
+        }
         return(buffer.toString());
     }
 
@@ -79,5 +114,16 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
         String formattedValue = DECIMAL_FORMAT.format(Double.parseDouble(value));
         double dataValue = Double.parseDouble(formattedValue);
         return dataValue;
+    }
+
+    /**
+     * Network helper method
+     * @return true if established connection to network, false otherwise
+     */
+    private boolean networkIsAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 }

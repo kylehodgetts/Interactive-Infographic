@@ -1,5 +1,8 @@
 package com.kylehodgetts.interactiveinfographic;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 

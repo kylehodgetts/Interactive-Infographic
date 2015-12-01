@@ -12,15 +12,18 @@ import com.kylehodgetts.interactiveinfographic.model.DataEntry;
  * AsyncTask that retrieves the Education data from the World Bank API
  */
 public class GetEducationDataTask extends GetDataTask {
-    private Context applicationContext;
 
+    /**
+     * Default Constructor
+     * @param context current application context
+     */
     public GetEducationDataTask(Context context) {
-        this.applicationContext = context;
+        super(context);
     }
 
     @Override
     protected void onProgressUpdate(DataEntry... dataEntries) {
         Log.d("pull: ", dataEntries[0].toString());
-        DataBank.getDataBank(applicationContext).addEducationEntry(dataEntries[0]);
+        DataBank.getDataBank(super.context).addEducationEntry(dataEntries[0]);
     }
 }
