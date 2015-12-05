@@ -63,8 +63,8 @@ public class ComboChartFragment extends Fragment {
         dataSeekBar = (SeekBar) rootView.findViewById(R.id.dataSeeker);
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
                                                                     R.array.years,
-                                                                    android.R.layout.simple_spinner_item);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                                    R.layout.spinner_item);
+        arrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         yearSpinner.setAdapter(arrayAdapter);
         yearSpinner.setOnItemSelectedListener(new YearChangeListener());
         dataSeekBar.setMax(30);
@@ -149,10 +149,8 @@ public class ComboChartFragment extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             int year = Integer.parseInt((String) parent.getItemAtPosition(position));
-            Log.d("FRAGMENT: ", ""+year);
             for(DataEntry dataEntry : dataBank.getEducationEntries()) {
                 if(dataEntry.getYear() == year) {
-                    Log.d("FRAGMENT: ", ""+(int) dataEntry.getValue());
                     dataSeekBar.setProgress((int) dataEntry.getValue());
                     dataSeekBar.invalidate();
                 }
