@@ -1,7 +1,6 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.InstrumentationTestCase;
 
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;

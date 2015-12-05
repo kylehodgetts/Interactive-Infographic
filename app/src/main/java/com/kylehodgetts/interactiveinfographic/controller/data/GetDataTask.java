@@ -58,9 +58,10 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
                 String countryCode = data.getJSONObject("country").getString("id");
                 String country = data.getJSONObject("country").getString("value");
                 String value = data.getString("value");
-                if(value.equals("null")) {
+                if(value.equals("null") || value.equals("0.00")) {
                     value = previousDataValue;
                 }
+                previousDataValue = value;
                 float dataValue = Float.parseFloat(value);
                 int year = Integer.parseInt(data.getString("date"));
                 publishProgress(new DataEntry(indicator, countryCode, country, year, dataValue));

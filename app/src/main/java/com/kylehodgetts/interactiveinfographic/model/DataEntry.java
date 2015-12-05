@@ -6,11 +6,11 @@ package com.kylehodgetts.interactiveinfographic.model;
  * Models base data entry for one year
  */
 public class DataEntry {
-    public String indicator;
-    public String countryCode;
-    public String country;
-    public int year;
-    public float value;
+    private String indicator;
+    private String countryCode;
+    private String country;
+    private int year;
+    private float value;
 
     /**
      * Default Constructor
