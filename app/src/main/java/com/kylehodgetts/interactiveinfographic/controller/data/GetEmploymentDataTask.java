@@ -1,5 +1,6 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -19,7 +20,7 @@ public class GetEmploymentDataTask extends GetDataTask {
      * Public Constructor
      * @param context current application context
      */
-    public GetEmploymentDataTask(Context context) {
+    public GetEmploymentDataTask(Activity context) {
         super(context, CACHE_FILE);
     }
 

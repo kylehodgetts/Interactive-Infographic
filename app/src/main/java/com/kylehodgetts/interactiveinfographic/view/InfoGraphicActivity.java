@@ -24,10 +24,10 @@ public class InfoGraphicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infographic);
 
-        new GetEmploymentDataTask(getApplicationContext()).execute(EMPLOYMENT_URL);
-        new GetEducationDataTask(getApplicationContext()).execute(EDUCATION_URL);
+        new GetEmploymentDataTask(this).execute(EMPLOYMENT_URL);
+        new GetEducationDataTask(this).execute(EDUCATION_URL);
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
+            getFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, new ComboChartFragment())
                     .commit();

@@ -1,5 +1,6 @@
 package com.kylehodgetts.interactiveinfographic.view;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,10 +22,9 @@ import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
-import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ComboLineColumnChartView;
 
-public class ComboChartFragment extends android.support.v4.app.Fragment {
+public class ComboChartFragment extends Fragment {
 
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
@@ -37,18 +37,12 @@ public class ComboChartFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false);
-
+        dataBank = DataBank.getDataBank(getActivity().getApplicationContext());
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         renderData();
         chart.startDataAnimation();
         return rootView;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        dataBank = DataBank.getDataBank(context);
     }
 
     private void renderData() {

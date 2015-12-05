@@ -1,12 +1,15 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.kylehodgetts.interactiveinfographic.R;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
+import com.kylehodgetts.interactiveinfographic.view.ComboChartFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,14 +33,14 @@ import java.text.DecimalFormat;
  * @see {@link 'http://data.worldbank.org/developers'}
  */
 public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
-    protected Context context;
+    protected Activity context;
     private String fileName;
 
     /**
      * Protected Constructor
      * @param context current application context
      */
-    protected GetDataTask(Context context, String fileName) {
+    protected GetDataTask(Activity context, String fileName) {
         this.context = context;
         this.fileName = fileName;
     }
@@ -66,6 +69,16 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        context.getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, new ComboChartFragment())
+                .commit();
+
     }
 
     private String readData(String urlName) throws Exception {

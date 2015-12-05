@@ -1,5 +1,6 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -18,7 +19,7 @@ public class GetEducationDataTask extends GetDataTask {
      * Default Constructor
      * @param context current application context
      */
-    public GetEducationDataTask(Context context) {
+    public GetEducationDataTask(Activity context) {
         super(context, CACHE_FILE);
     }
 
