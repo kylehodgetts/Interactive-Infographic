@@ -1,9 +1,10 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
-import android.test.InstrumentationTestCase;
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
+import com.kylehodgetts.interactiveinfographic.view.InfoGraphicActivity;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -17,11 +18,15 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * Tests that the education data task fetcher runs as expected
  */
-public class GetEducationDataTaskTest extends InstrumentationTestCase {
+public class GetEducationDataTaskTest extends ActivityInstrumentationTestCase2<InfoGraphicActivity> {
     private static final String URL =   "http://api.worldbank.org/countries/gbr/" +
                                         "indicators/SE.XPD.TOTL.GD.ZS?&" +
                                         "date=1991:2013&format=json";
     private boolean called;
+
+    public GetEducationDataTaskTest(Class<InfoGraphicActivity> activityClass) {
+        super(activityClass);
+    }
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -41,7 +46,7 @@ public class GetEducationDataTaskTest extends InstrumentationTestCase {
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new GetEducationDataTask(getInstrumentation().getContext()) {
+                new GetEducationDataTask(getActivity()) {
                     @Override
                     protected Void doInBackground(String... params) {
                         called = true;

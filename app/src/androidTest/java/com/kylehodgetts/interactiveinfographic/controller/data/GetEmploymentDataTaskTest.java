@@ -1,9 +1,10 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
-import android.test.InstrumentationTestCase;
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
+import com.kylehodgetts.interactiveinfographic.view.InfoGraphicActivity;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -17,11 +18,15 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * Tests that the Employment data task fetcher runs as expected
  */
-public class GetEmploymentDataTaskTest extends InstrumentationTestCase {
+public class GetEmploymentDataTaskTest extends ActivityInstrumentationTestCase2<InfoGraphicActivity> {
     private static final String URL =   "http://api.worldbank.org/countries/gbr" +
                                         "/indicators/SL.UEM.1524.ZS?" +
                                         "&date=1991:2013&format=json";
     private boolean called;
+
+    public GetEmploymentDataTaskTest(Class<InfoGraphicActivity> activityClass) {
+        super(activityClass);
+    }
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -41,7 +46,7 @@ public class GetEmploymentDataTaskTest extends InstrumentationTestCase {
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new GetEmploymentDataTask(getInstrumentation().getContext()){
+                new GetEmploymentDataTask(getActivity()){
                     @Override
                     protected Void doInBackground(String... params) {
                         called = true;
