@@ -1,6 +1,7 @@
 package com.kylehodgetts.interactiveinfographic.view;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import lecho.lib.hellocharts.listener.ComboLineColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.ComboLineColumnChartData;
@@ -35,6 +37,7 @@ public class ComboChartFragment extends Fragment {
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
     private DataBank dataBank;
+    ArrayList<AxisValue> axisValues;
 
     public ComboChartFragment() {}
 
@@ -52,10 +55,11 @@ public class ComboChartFragment extends Fragment {
 
     private void renderData() {
         data = new ComboLineColumnChartData(renderColumnData(), renderLineData());
-        Axis axisX = new Axis().setHasLines(true);
-        Axis axisY = new Axis().setHasLines(true);
+        Axis axisX = new Axis();
+        Axis axisY = new Axis();
         axisX.setName("Year");
         axisY.setName("Value");
+        axisX.setValues(axisValues);
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(axisY);
         chart.setComboLineColumnChartData(data);
@@ -64,12 +68,15 @@ public class ComboChartFragment extends Fragment {
 
     private ColumnChartData renderColumnData() {
         int numberOfColumns = dataBank.getEducationEntries().size();
-        ArrayList<Column> columns = new ArrayList<>();
+        axisValues = new ArrayList();
+        ArrayList<Column> columns = new ArrayList();
         ArrayList education = dataBank.getEducationEntries();
         int dataSize = education.size();
         for(int i = 0; i < numberOfColumns; i++) {
+            DataEntry currentDataEntry = dataBank.getEducationEntries().get((dataSize - 1) - i);
             ArrayList<SubcolumnValue> subcolumnValues = new ArrayList<>();
-            subcolumnValues.add(new SubcolumnValue(dataBank.getEducationEntries().get((dataSize - 1) - i).getValue()));
+            subcolumnValues.add(new SubcolumnValue(currentDataEntry.getValue(), Color.GREEN));
+            axisValues.add(new AxisValue(i).setLabel(Integer.toString(currentDataEntry.getYear())));
             columns.add(new Column(subcolumnValues));
         }
         return new ColumnChartData(columns);
@@ -86,7 +93,7 @@ public class ComboChartFragment extends Fragment {
         }
         Line line = new Line();
         line.setValues(points);
-        line.setColor(R.color.colorPrimary);
+        line.setColor(Color.RED);
         line.setCubic(false);
         line.setHasLabels(true);
         line.setHasLines(true);
