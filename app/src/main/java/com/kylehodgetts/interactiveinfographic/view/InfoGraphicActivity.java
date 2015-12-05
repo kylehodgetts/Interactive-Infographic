@@ -27,6 +27,7 @@ public class InfoGraphicActivity extends AppCompatActivity {
         new GetEmploymentDataTask(this).execute(EMPLOYMENT_URL);
         new GetEducationDataTask(this).execute(EDUCATION_URL);
         if (savedInstanceState == null) {
+
             getFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, new ComboChartFragment())

@@ -80,4 +80,40 @@ public class DataEntry {
     public String getCountryCode() {
         return countryCode;
     }
+
+    /**
+     *
+     * @param value new value
+     */
+    public void setValue(float value) {
+        this.value = value;
+    }
+
+    /**
+     *
+     * @param year new year
+     */
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    /**
+     *
+     * @param country new country
+     */
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    /**
+     *
+     * @param indicator new indicator
+     */
+    public void setIndicator(String indicator) {
+        this.indicator = indicator;
+    }
 }

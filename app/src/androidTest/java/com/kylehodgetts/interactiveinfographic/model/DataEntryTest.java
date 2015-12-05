@@ -52,4 +52,40 @@ public class DataEntryTest extends TestCase {
     public void testGetCountryCode() throws Exception {
         assertEquals("Different values were returned for country code", COUNTRY_CODE, dataEntry.getCountryCode());
     }
+
+    @Test
+    public void testSetValue() throws Exception {
+        float currentValue = dataEntry.getValue();
+        float newValue = 2.0f;
+        dataEntry.setValue(newValue);
+        assertFalse(dataEntry.getValue() == currentValue);
+        assertEquals("Different values were returned for value", newValue, dataEntry.getValue());
+    }
+
+    @Test
+    public void testSetYear() throws Exception {
+        int currentYear = dataEntry.getYear();
+        int newYear = 3000;
+        dataEntry.setYear(newYear);
+        assertFalse(dataEntry.getYear() == currentYear);
+        assertEquals("Different values were returned for year", newYear, dataEntry.getYear());
+    }
+
+    @Test
+    public void testSetCountry() throws Exception {
+        String currentCountry = dataEntry.getCountry();
+        String newCountry = "Poland";
+        dataEntry.setCountry(newCountry);
+        assertFalse(dataEntry.getCountry().equals(currentCountry));
+        assertEquals("Different values were returned for country", newCountry, dataEntry.getCountry());
+    }
+
+    @Test
+    public void testSetCountryCode() throws Exception {
+        String currentCountryCode = dataEntry.getCountryCode();
+        String newCountryCode = "PL";
+        dataEntry.setCountryCode(newCountryCode);
+        assertFalse(dataEntry.getCountryCode().equals(currentCountryCode));
+        assertEquals("Different values were returned for country code", newCountryCode, dataEntry.getCountryCode());
+    }
 }

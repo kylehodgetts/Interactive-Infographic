@@ -3,9 +3,14 @@ package com.kylehodgetts.interactiveinfographic.view;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.kylehodgetts.interactiveinfographic.R;
@@ -34,10 +39,14 @@ import lecho.lib.hellocharts.view.ComboLineColumnChartView;
  */
 public class ComboChartFragment extends Fragment {
 
+    private Spinner yearSpinner;
+    private SeekBar dataSeekBar;
+    private ArrayAdapter yearAdapter;
+
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
     private DataBank dataBank;
-    ArrayList<AxisValue> axisValues;
+    private ArrayList<AxisValue> axisValues;
 
     public ComboChartFragment() {}
 
@@ -50,6 +59,17 @@ public class ComboChartFragment extends Fragment {
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         renderData();
+        yearSpinner = (Spinner) rootView.findViewById(R.id.yearSpinner);
+        dataSeekBar = (SeekBar) rootView.findViewById(R.id.dataSeeker);
+        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
+                                                                    R.array.years,
+                                                                    android.R.layout.simple_spinner_item);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearSpinner.setAdapter(arrayAdapter);
+        yearSpinner.setOnItemSelectedListener(new YearChangeListener());
+        dataSeekBar.setMax(30);
+        dataSeekBar.setOnSeekBarChangeListener(new DataChangedListener());
+
         return rootView;
     }
 
@@ -63,6 +83,7 @@ public class ComboChartFragment extends Fragment {
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(axisY);
         chart.setComboLineColumnChartData(data);
+        chart.invalidate();
 
     }
 
@@ -121,6 +142,46 @@ public class ComboChartFragment extends Fragment {
                     .get((dataBank.getEmploymentEntries().size() - 1) - pointIndex);
             Toast.makeText(getActivity(), dataEntry.toString(), Toast.LENGTH_SHORT).show();
         }
+    }
 
+    private class YearChangeListener implements AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            int year = Integer.parseInt((String) parent.getItemAtPosition(position));
+            Log.d("FRAGMENT: ", ""+year);
+            for(DataEntry dataEntry : dataBank.getEducationEntries()) {
+                if(dataEntry.getYear() == year) {
+                    Log.d("FRAGMENT: ", ""+(int) dataEntry.getValue());
+                    dataSeekBar.setProgress((int) dataEntry.getValue());
+                    dataSeekBar.invalidate();
+                }
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
+    private class DataChangedListener implements SeekBar.OnSeekBarChangeListener {
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            int year = Integer.parseInt(yearSpinner.getSelectedItem().toString());
+            for(int i = 0; i < dataBank.getEducationEntries().size(); i++) {
+                if(dataBank.getEducationEntries().get(i).getYear() == year) {
+                    dataBank.getEducationEntries().get(i).setValue(progress);
+                    ComboChartFragment.this.renderData();
+                }
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
     }
 }
