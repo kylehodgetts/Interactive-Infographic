@@ -16,7 +16,7 @@ public class DataEntryTest extends TestCase {
     private static final String COUNTRY_CODE = "GBR";
     private static final String COUNTRY = "Great Britain";
     private static final int YEAR = 1990;
-    private static final double VALUE = 23.12;
+    private static final float VALUE = 23.3f;
 
     private DataEntry dataEntry;
 

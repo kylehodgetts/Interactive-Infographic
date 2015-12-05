@@ -6,11 +6,11 @@ package com.kylehodgetts.interactiveinfographic.model;
  * Models base data entry for one year
  */
 public class DataEntry {
-    protected String indicator;
-    protected String countryCode;
-    protected String country;
-    protected int year;
-    protected double value;
+    public String indicator;
+    public String countryCode;
+    public String country;
+    public int year;
+    public float value;
 
     /**
      * Default Constructor
@@ -20,7 +20,7 @@ public class DataEntry {
      * @param country       The country the data is related to
      * @param countryCode   Shorthand code for the given country
      */
-    public DataEntry(String indicator, String countryCode, String country, int year, double value) {
+    public DataEntry(String indicator, String countryCode, String country, int year, float value) {
         this.indicator = indicator;
         this.countryCode = countryCode;
         this.country = country;
@@ -45,7 +45,7 @@ public class DataEntry {
      *
      * @return data indicator
      */
-    protected String getIndicator() {
+    public String getIndicator() {
         return indicator;
     }
 
@@ -53,7 +53,7 @@ public class DataEntry {
      *
      * @return the data value
      */
-    protected double getValue() {
+    public float getValue() {
         return value;
     }
 
@@ -61,7 +61,7 @@ public class DataEntry {
      *
      * @return the year that the data refers to
      */
-    protected int getYear() {
+    public int getYear() {
         return year;
     }
 
@@ -69,7 +69,7 @@ public class DataEntry {
      *
      * @return the data's corresponding country
      */
-    protected String getCountry() {
+    public String getCountry() {
         return country;
     }
 
@@ -77,7 +77,7 @@ public class DataEntry {
      *
      * @return The country code of the data's given country
      */
-    protected String getCountryCode() {
+    public String getCountryCode() {
         return countryCode;
     }
 }

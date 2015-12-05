@@ -30,7 +30,6 @@ import java.text.DecimalFormat;
  * @see {@link 'http://data.worldbank.org/developers'}
  */
 public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
-    private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.00");
     protected Context context;
     private String fileName;
 
@@ -59,7 +58,7 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
                 if(value.equals("null")) {
                     value = previousDataValue;
                 }
-                double dataValue = formatData(value);
+                float dataValue = Float.parseFloat(value);
                 int year = Integer.parseInt(data.getString("date"));
                 publishProgress(new DataEntry(indicator, countryCode, country, year, dataValue));
             }
@@ -106,17 +105,6 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
             builder = (StringBuilder) objectInputStream.readObject();
         }
         return(builder.toString());
-    }
-
-    /**
-     *
-     * @param value decimal value to be formatted, in string form
-     * @return decimal value rounded to 2 decimal places
-     */
-    private double formatData(String value) {
-        DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
-        String formattedValue = DECIMAL_FORMAT.format(Double.parseDouble(value));
-        return Double.parseDouble(formattedValue);
     }
 
     /**
