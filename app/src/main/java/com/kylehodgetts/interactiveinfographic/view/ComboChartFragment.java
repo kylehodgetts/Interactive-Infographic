@@ -135,7 +135,7 @@ public class ComboChartFragment extends Fragment {
                     .get((dataBank.getEducationEntries().size() - 1) - columnIndex);
             Toast.makeText(getActivity(), dataEntry.toString(), Toast.LENGTH_SHORT).show();
             getFragmentManager().beginTransaction()
-                                .add(R.id.graphFragment, new DataDialog())
+                                .add(R.id.drawer_layout, new DataDialog())
                                 .commit();
         }
 
@@ -145,7 +145,7 @@ public class ComboChartFragment extends Fragment {
                     .get((dataBank.getEmploymentEntries().size() - 1) - pointIndex);
             Toast.makeText(getActivity(), dataEntry.toString(), Toast.LENGTH_SHORT).show();
             getFragmentManager().beginTransaction()
-                    .add(R.id.graphFragment, new DataDialog())
+                    .add(R.id.drawer_layout, new DataDialog())
                     .commit();
         }
     }
