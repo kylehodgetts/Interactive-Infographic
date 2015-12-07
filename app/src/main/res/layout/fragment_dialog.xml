@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/comparison_section"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="45dp">
+
+        <LinearLayout
+            android:id="@+id/up_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/up_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_up_inactive"/>
+
+            <TextView
+                android:id="@+id/previous_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/down_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/up_section">
+
+            <ImageView
+                android:id="@+id/down_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_down_inactive"/>
+
+            <TextView
+                android:id="@+id/current_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/chart_section"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true">
+
+        <lecho.lib.hellocharts.view.PieChartView
+            android:id="@+id/pie_chart"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <LinearLayout
+            android:id="@+id/gender_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/pie_chart">
+
+            <RelativeLayout
+                android:id="@+id/female_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/icon_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_female"/>
+
+                <View
+                    android:id="@+id/female_colour_key"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_toRightOf="@+id/icon_female"
+                    android:layout_toEndOf="@+id/icon_female" />
+
+                <TextView
+                    android:id="@+id/female_stat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test"
+                    android:layout_below="@id/icon_female"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/male_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp">
+
+                <ImageView
+                    android:id="@+id/icon_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_male"/>
+
+                <View
+                    android:id="@+id/male_colour_key"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_toRightOf="@+id/icon_male"
+                    android:layout_toEndOf="@+id/icon_male" />
+
+                <TextView
+                    android:id="@+id/male_stat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test"
+                    android:layout_below="@+id/icon_male"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
