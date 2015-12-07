@@ -2,8 +2,6 @@ package com.kylehodgetts.interactiveinfographic.view;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,13 +46,7 @@ public class GenderStatisticsFragment extends Fragment {
         dataEntry = (DataEntry) args.getSerializable("dataEntry");
         maleDataEntry = (DataEntry) args.getSerializable("maleDataEntry");
         femaleDataEntry = (DataEntry) args.getSerializable("femaleDataEntry");
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        chart.invalidate();
     }
 
     @Override
@@ -72,12 +64,12 @@ public class GenderStatisticsFragment extends Fragment {
         return rootView;
     }
 
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setComparison() {
         if(dataEntry.getValue() > prevDataEntry.getValue()) {
             downArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_active, null));
-        }
-        else {
+        } else {
             upArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_active, null));
         }
         previousText.setText(Float.toString(prevDataEntry.getValue()));

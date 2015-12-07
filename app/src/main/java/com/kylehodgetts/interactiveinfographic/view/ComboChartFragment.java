@@ -51,10 +51,15 @@ public class ComboChartFragment extends Fragment {
 
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dataBank = DataBank.getDataBank(getActivity().getApplicationContext());
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false);
-        dataBank = DataBank.getDataBank(getActivity().getApplicationContext());
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         renderData();
@@ -135,38 +140,44 @@ public class ComboChartFragment extends Fragment {
 
         @Override
         public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            Bundle bundle = new Bundle();
-            DataEntry dataEntry = null;
-            try {
-                 dataEntry = dataBank.getEmploymentEntries()
-                        .get((dataBank.getEmploymentEntries().size() - 1) - pointIndex);
-                bundle.putSerializable("dataEntry", dataEntry);
 
-                DataEntry prevDataEntry = dataBank.getEmploymentEntries()
-                        .get((dataBank.getEmploymentEntries().size() - 1) - (pointIndex - 1));
-                bundle.putSerializable("prevDataEntry", prevDataEntry);
-
-                int year = dataEntry.getYear();
-                for(DataEntry de : dataBank.getUnemploymentPercentages()){
-                    if(de.getYear() == year && (de.getIndicator().contains("youth male"))) {
-                        bundle.putSerializable("maleDataEntry", de);
-                    }
-                    else if(de.getYear() == year && (de.getIndicator().contains("youth female"))) {
-                        bundle.putSerializable("femaleDataEntry", de);
-                    }
-                }
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-                bundle.putSerializable("prevDataEntry", dataEntry);
-            }
             GenderStatisticsFragment fragment = new GenderStatisticsFragment();
-            fragment.setArguments(bundle);
+            fragment.setArguments(setGenderStats(pointIndex));
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.gender_statistics, fragment)
                     .commit();
         }
+    }
+
+    private Bundle setGenderStats(int index) {
+        dataBank = DataBank.getDataBank(getActivity().getApplicationContext());
+        Bundle bundle = new Bundle();
+        DataEntry dataEntry = null;
+        try {
+            dataEntry = dataBank.getEmploymentEntries()
+                    .get((dataBank.getEmploymentEntries().size() - 1) - index);
+            bundle.putSerializable("dataEntry", dataEntry);
+
+            DataEntry prevDataEntry = dataBank.getEmploymentEntries()
+                    .get((dataBank.getEmploymentEntries().size() - 1) - (index - 1));
+            bundle.putSerializable("prevDataEntry", prevDataEntry);
+
+            int year = dataEntry.getYear();
+            for(DataEntry de : dataBank.getUnemploymentPercentages()){
+                if(de.getYear() == year && (de.getIndicator().contains("youth male"))) {
+                    bundle.putSerializable("maleDataEntry", de);
+                }
+                else if(de.getYear() == year && (de.getIndicator().contains("youth female"))) {
+                    bundle.putSerializable("femaleDataEntry", de);
+                }
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            bundle.putSerializable("prevDataEntry", dataEntry);
+        }
+        return bundle;
     }
 
     private class YearChangeListener implements AdapterView.OnItemSelectedListener {
