@@ -57,6 +57,10 @@ public class DataBank {
 
     }
 
+    /**
+     * Adds a new DataEntry to the DataBank
+     * @param percentageEntry <code>DataEntry</code> to add
+     */
     public void addUnemploymentPercentageEntry(DataEntry percentageEntry) {
         unemploymentPercentages.add(percentageEntry);
         Log.d(TAG, percentageEntry.toString() + " added to percentageEntries");
@@ -78,6 +82,10 @@ public class DataBank {
         return employmentEntries;
     }
 
+    /**
+     *
+     * @return Collection of <code>DataEntry</code>
+     */
     public ArrayList<DataEntry> getUnemploymentPercentages() {
         return unemploymentPercentages;
     }

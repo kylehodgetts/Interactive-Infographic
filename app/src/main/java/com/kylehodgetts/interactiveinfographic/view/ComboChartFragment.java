@@ -135,7 +135,37 @@ public class ComboChartFragment extends Fragment {
 
         @Override
         public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
+            Bundle bundle = new Bundle();
+            DataEntry dataEntry = null;
+            try {
+                 dataEntry = dataBank.getEmploymentEntries()
+                        .get((dataBank.getEmploymentEntries().size() - 1) - pointIndex);
+                bundle.putSerializable("dataEntry", dataEntry);
 
+                DataEntry prevDataEntry = dataBank.getEmploymentEntries()
+                        .get((dataBank.getEmploymentEntries().size() - 1) - (pointIndex - 1));
+                bundle.putSerializable("prevDataEntry", prevDataEntry);
+
+                int year = dataEntry.getYear();
+                for(DataEntry de : dataBank.getUnemploymentPercentages()){
+                    if(de.getYear() == year && (de.getIndicator().contains("youth male"))) {
+                        bundle.putSerializable("maleDataEntry", de);
+                    }
+                    else if(de.getYear() == year && (de.getIndicator().contains("youth female"))) {
+                        bundle.putSerializable("femaleDataEntry", de);
+                    }
+                }
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+                bundle.putSerializable("prevDataEntry", dataEntry);
+            }
+            GenderStatisticsFragment fragment = new GenderStatisticsFragment();
+            fragment.setArguments(bundle);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.gender_statistics, fragment)
+                    .commit();
         }
     }
 

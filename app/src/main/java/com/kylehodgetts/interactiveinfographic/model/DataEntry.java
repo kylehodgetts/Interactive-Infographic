@@ -1,11 +1,13 @@
 package com.kylehodgetts.interactiveinfographic.model;
 
+import java.io.Serializable;
+
 /**
  * @author Kyle Hodgetts
  * @version 1.0
  * Models base data entry for one year
  */
-public class DataEntry {
+public class DataEntry implements Serializable {
     private String indicator;
     private String countryCode;
     private String country;
