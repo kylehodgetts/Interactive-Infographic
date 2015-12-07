@@ -41,7 +41,6 @@ public class ComboChartFragment extends Fragment {
 
     private Spinner yearSpinner;
     private SeekBar dataSeekBar;
-    private ArrayAdapter yearAdapter;
 
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
@@ -131,22 +130,12 @@ public class ComboChartFragment extends Fragment {
 
         @Override
         public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
-            DataEntry dataEntry = dataBank.getEducationEntries()
-                    .get((dataBank.getEducationEntries().size() - 1) - columnIndex);
-            Toast.makeText(getActivity(), dataEntry.toString(), Toast.LENGTH_SHORT).show();
-            getFragmentManager().beginTransaction()
-                                .add(R.id.drawer_layout, new DataDialog())
-                                .commit();
+
         }
 
         @Override
         public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            DataEntry dataEntry = dataBank.getEmploymentEntries()
-                    .get((dataBank.getEmploymentEntries().size() - 1) - pointIndex);
-            Toast.makeText(getActivity(), dataEntry.toString(), Toast.LENGTH_SHORT).show();
-            getFragmentManager().beginTransaction()
-                    .add(R.id.drawer_layout, new DataDialog())
-                    .commit();
+
         }
     }
 

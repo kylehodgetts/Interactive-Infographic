@@ -46,28 +46,30 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     }
 
     protected Void doInBackground(String... params) {
-        try {
+        for(String s : params) {
+            try {
             /* Get JSON object, extracting the second array in the object, where the data is */
-            JSONArray array = new JSONArray(readData(params[0])).getJSONArray(1);
-            String previousDataValue = "0.0";
+                JSONArray array = new JSONArray(readData(s)).getJSONArray(1);
+                String previousDataValue = "0.0";
 
             /* Iterate through JSONArray to parse values for each EmploymentEntry field */
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject data = array.getJSONObject(i);
-                String indicator = data.getJSONObject("indicator").getString("value").split(",")[0];
-                String countryCode = data.getJSONObject("country").getString("id");
-                String country = data.getJSONObject("country").getString("value");
-                String value = data.getString("value");
-                if(value.equals("null") || value.equals("0.00")) {
-                    value = previousDataValue;
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject data = array.getJSONObject(i);
+                    String indicator = data.getJSONObject("indicator").getString("value");
+                    String countryCode = data.getJSONObject("country").getString("id");
+                    String country = data.getJSONObject("country").getString("value");
+                    String value = data.getString("value");
+                    if(value.equals("null") || value.equals("0.00")) {
+                        value = previousDataValue;
+                    }
+                    previousDataValue = value;
+                    float dataValue = Float.parseFloat(value);
+                    int year = Integer.parseInt(data.getString("date"));
+                    publishProgress(new DataEntry(indicator, countryCode, country, year, dataValue));
                 }
-                previousDataValue = value;
-                float dataValue = Float.parseFloat(value);
-                int year = Integer.parseInt(data.getString("date"));
-                publishProgress(new DataEntry(indicator, countryCode, country, year, dataValue));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }

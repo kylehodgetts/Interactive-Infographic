@@ -17,11 +17,13 @@ public class DataBank {
 
     private ArrayList<DataEntry> educationEntries;
     private ArrayList<DataEntry> employmentEntries;
+    private ArrayList<DataEntry> unemploymentPercentages;
 
     private DataBank(Context context) {
         this.appContext = context;
         educationEntries = new ArrayList<>();
         employmentEntries = new ArrayList<>();
+        unemploymentPercentages = new ArrayList<>();
     }
 
     /**
@@ -55,6 +57,11 @@ public class DataBank {
 
     }
 
+    public void addUnemploymentPercentageEntry(DataEntry percentageEntry) {
+        unemploymentPercentages.add(percentageEntry);
+        Log.d(TAG, percentageEntry.toString() + " added to percentageEntries");
+    }
+
     /**
      *
      * @return Collection of <code>DataEntry</code>s
@@ -69,5 +76,9 @@ public class DataBank {
      */
     public ArrayList<DataEntry> getEmploymentEntries() {
         return employmentEntries;
+    }
+
+    public ArrayList<DataEntry> getUnemploymentPercentages() {
+        return unemploymentPercentages;
     }
 }
