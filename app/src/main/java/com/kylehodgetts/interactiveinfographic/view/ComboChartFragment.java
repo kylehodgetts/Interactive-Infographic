@@ -1,5 +1,6 @@
 package com.kylehodgetts.interactiveinfographic.view;
 
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -133,6 +134,9 @@ public class ComboChartFragment extends Fragment {
             DataEntry dataEntry = dataBank.getEducationEntries()
                     .get((dataBank.getEducationEntries().size() - 1) - columnIndex);
             Toast.makeText(getActivity(), dataEntry.toString(), Toast.LENGTH_SHORT).show();
+            getFragmentManager().beginTransaction()
+                                .add(R.id.graphFragment, new DataDialog())
+                                .commit();
         }
 
         @Override
@@ -140,6 +144,9 @@ public class ComboChartFragment extends Fragment {
             DataEntry dataEntry = dataBank.getEmploymentEntries()
                     .get((dataBank.getEmploymentEntries().size() - 1) - pointIndex);
             Toast.makeText(getActivity(), dataEntry.toString(), Toast.LENGTH_SHORT).show();
+            getFragmentManager().beginTransaction()
+                    .add(R.id.graphFragment, new DataDialog())
+                    .commit();
         }
     }
 
