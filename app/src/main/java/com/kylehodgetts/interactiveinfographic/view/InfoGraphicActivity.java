@@ -51,24 +51,47 @@ public class InfoGraphicActivity extends FragmentActivity
     @Override
     public void onYearSelected(int position) {
         Toast.makeText(this, "POINT SELECTED AT " + position, Toast.LENGTH_SHORT).show();
+        GenderStatisticsFragment genderStatisticsFragment = new GenderStatisticsFragment();
+        genderStatisticsFragment.setArguments(setGenderStats(position));
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.gender_statistics, genderStatisticsFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     public Bundle setGenderStats(int index) {
         dataBank = DataBank.getDataBank(this);
         Bundle bundle = new Bundle();
-        DataEntry dataEntry;
+        DataEntry dataEntry, prevDataEntry;
         dataEntry = dataBank.getEmploymentEntries()
                 .get((dataBank.getEmploymentEntries().size() - 1) - index);
+        try{
+            prevDataEntry = dataBank.getEmploymentEntries()
+                    .get((dataBank.getEmploymentEntries().size() - 1) - (index - 1));
+        }
+        catch(IndexOutOfBoundsException e) {
+            prevDataEntry = dataEntry;
+        }
+        
         bundle.putSerializable("dataEntry", dataEntry);
-        bundle.putSerializable("prevDataEntry", dataEntry);
+        bundle.putSerializable("prevDataEntry", prevDataEntry);
 
         int year = dataEntry.getYear();
+        DataEntry maleDataEntry = null;
+        DataEntry femaleDataEntry = null;
         for(DataEntry de : dataBank.getUnemploymentPercentages()){
-            if(de.getYear() == year && (de.getIndicator().contains("youth male"))) {
+            if(maleDataEntry == null && de.getYear() == year
+                                     && (de.getIndicator().contains("youth male"))) {
                 bundle.putSerializable("maleDataEntry", de);
             }
-            else if(de.getYear() == year && (de.getIndicator().contains("youth female"))) {
+            else if(femaleDataEntry == null && de.getYear() == year
+                                            && (de.getIndicator().contains("youth female"))) {
                 bundle.putSerializable("femaleDataEntry", de);
+            }
+
+            if(maleDataEntry != null && femaleDataEntry != null) {
+                break;
             }
         }
         return bundle;
