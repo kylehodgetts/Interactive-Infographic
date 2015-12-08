@@ -1,7 +1,8 @@
 package com.kylehodgetts.interactiveinfographic.view;
 
-import android.app.DialogFragment;
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.kylehodgetts.interactiveinfographic.R;
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
@@ -38,32 +38,41 @@ import lecho.lib.hellocharts.view.ComboLineColumnChartView;
  * Chart Fragment that makes up the <code>InfoGraphicActivity</code>
  */
 public class ComboChartFragment extends Fragment {
+    OnYearSelectedListener callback;
 
     private Spinner yearSpinner;
     private SeekBar dataSeekBar;
-    private ArrayAdapter yearAdapter;
 
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
     private DataBank dataBank;
     private ArrayList<AxisValue> axisValues;
 
+    public interface OnYearSelectedListener {
+        void onYearSelected(int position);
+    }
+
     public ComboChartFragment() {}
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dataBank = DataBank.getDataBank(getActivity().getApplicationContext());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false);
-        dataBank = DataBank.getDataBank(getActivity().getApplicationContext());
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         renderData();
         yearSpinner = (Spinner) rootView.findViewById(R.id.yearSpinner);
         dataSeekBar = (SeekBar) rootView.findViewById(R.id.dataSeeker);
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
-                                                                    R.array.years,
-                                                                    R.layout.spinner_item);
+                R.array.years,
+                R.layout.spinner_item);
         arrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         yearSpinner.setAdapter(arrayAdapter);
         yearSpinner.setOnItemSelectedListener(new YearChangeListener());
@@ -71,6 +80,20 @@ public class ComboChartFragment extends Fragment {
         dataSeekBar.setOnSeekBarChangeListener(new DataChangedListener());
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception.
+        try {
+            callback = (OnYearSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
 
     private void renderData() {
@@ -84,7 +107,6 @@ public class ComboChartFragment extends Fragment {
         data.setAxisYLeft(axisY);
         chart.setComboLineColumnChartData(data);
         chart.invalidate();
-
     }
 
     private ColumnChartData renderColumnData() {
@@ -131,22 +153,12 @@ public class ComboChartFragment extends Fragment {
 
         @Override
         public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
-            DataEntry dataEntry = dataBank.getEducationEntries()
-                    .get((dataBank.getEducationEntries().size() - 1) - columnIndex);
-            Toast.makeText(getActivity(), dataEntry.toString(), Toast.LENGTH_SHORT).show();
-            getFragmentManager().beginTransaction()
-                                .add(R.id.drawer_layout, new DataDialog())
-                                .commit();
+
         }
 
         @Override
         public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            DataEntry dataEntry = dataBank.getEmploymentEntries()
-                    .get((dataBank.getEmploymentEntries().size() - 1) - pointIndex);
-            Toast.makeText(getActivity(), dataEntry.toString(), Toast.LENGTH_SHORT).show();
-            getFragmentManager().beginTransaction()
-                    .add(R.id.drawer_layout, new DataDialog())
-                    .commit();
+            callback.onYearSelected(pointIndex);
         }
     }
 
@@ -164,9 +176,7 @@ public class ComboChartFragment extends Fragment {
         }
 
         @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
+        public void onNothingSelected(AdapterView<?> parent) {}
     }
 
     private class DataChangedListener implements SeekBar.OnSeekBarChangeListener {

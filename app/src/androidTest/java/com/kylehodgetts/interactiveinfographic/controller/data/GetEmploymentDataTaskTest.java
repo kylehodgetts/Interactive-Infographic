@@ -24,8 +24,8 @@ public class GetEmploymentDataTaskTest extends ActivityInstrumentationTestCase2<
                                         "&date=1991:2013&format=json";
     private boolean called;
 
-    public GetEmploymentDataTaskTest(Class<InfoGraphicActivity> activityClass) {
-        super(activityClass);
+    public GetEmploymentDataTaskTest() {
+        super(InfoGraphicActivity.class);
     }
 
     @BeforeClass
@@ -43,7 +43,7 @@ public class GetEmploymentDataTaskTest extends ActivityInstrumentationTestCase2<
     public final void testSuccessfulFetch() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
 
-        runTestOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 new GetEmploymentDataTask(getActivity()){
@@ -63,7 +63,7 @@ public class GetEmploymentDataTaskTest extends ActivityInstrumentationTestCase2<
                     }
                 }.execute(URL);
             }
-        });
+        }).run();
 
         signal.await(10, TimeUnit.SECONDS);
         assertTrue(called);

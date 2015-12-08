@@ -16,15 +16,17 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Kyle Hodgetts
  * @version 1.0
- * Tests that the education data task fetcher runs as expected
+ * Tests that the unemployment data task fetcher runs as expected
  */
-public class GetEducationDataTaskTest extends ActivityInstrumentationTestCase2<InfoGraphicActivity> {
-    private static final String URL =   "http://api.worldbank.org/countries/gbr/" +
-                                        "indicators/SE.XPD.TOTL.GD.ZS?&" +
-                                        "date=1991:2013&format=json";
+public class GetUnemploymentPercentagesTaskTest extends ActivityInstrumentationTestCase2<InfoGraphicActivity> {
+    private static final String MALE_UNEMPLOYMENT_URL =
+            "http://api.worldbank.org/countries/gbr/" +
+                    "indicators/SL.UEM.1524.MA.NE.ZS?" +
+                    "&date=1991%3A2011&format=json";
+
     private boolean called;
 
-    public GetEducationDataTaskTest() {
+    public GetUnemploymentPercentagesTaskTest() {
         super(InfoGraphicActivity.class);
     }
 
@@ -46,7 +48,7 @@ public class GetEducationDataTaskTest extends ActivityInstrumentationTestCase2<I
         new Thread(new Runnable() {
             @Override
             public void run() {
-                new GetEducationDataTask(getActivity()) {
+                new GetUnemploymentPercentagesTask(getActivity()){
                     @Override
                     protected Void doInBackground(String... params) {
                         called = true;
@@ -56,12 +58,12 @@ public class GetEducationDataTaskTest extends ActivityInstrumentationTestCase2<I
                     @Override
                     protected void onProgressUpdate(DataEntry... dataEntries) {
                         signal.countDown();
-                        assertNotNull("Progress Education Entry was null", dataEntries[0]);
+                        assertNotNull("Progress Employment Entry was null", dataEntries[0]);
                         DataBank dataBank = DataBank.getDataBank(getInstrumentation().getContext());
-                        assertNotNull("Education Entry was not added to data bank",
-                                      dataBank.getEducationEntries().get(0));
+                        assertNotNull("Employment Entry was not added to data bank",
+                                dataBank.getUnemploymentPercentages().get(0));
                     }
-                }.execute(URL);
+                }.execute(MALE_UNEMPLOYMENT_URL);
             }
         }).run();
 
