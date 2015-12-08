@@ -6,6 +6,8 @@ import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 import com.kylehodgetts.interactiveinfographic.view.InfoGraphicActivity;
 
+import junit.framework.TestCase;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,18 +16,18 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Kyle Hodgetts
- * @version 1.0
- * Tests that the Employment data task fetcher runs as expected
+ * Created by kylehodgetts on 08/12/2015.
  */
-public class GetMaleEmploymentDataTaskTest extends ActivityInstrumentationTestCase2<InfoGraphicActivity> {
-    private static final String URL =   "http://api.worldbank.org/countries/gbr" +
-                                        "/indicators/SL.UEM.1524.ZS?" +
-                                        "&date=1991:2013&format=json";
+public class GetUnemploymentPercentagesTaskTest extends ActivityInstrumentationTestCase2<InfoGraphicActivity> {
+    private static final String MALE_UNEMPLOYMENT_URL =
+            "http://api.worldbank.org/countries/gbr/" +
+                    "indicators/SL.UEM.1524.MA.NE.ZS?" +
+                    "&date=1991%3A2011&format=json";
+
     private boolean called;
 
-    public GetMaleEmploymentDataTaskTest(Class<InfoGraphicActivity> activityClass) {
-        super(activityClass);
+    public GetUnemploymentPercentagesTaskTest() {
+        super(InfoGraphicActivity.class);
     }
 
     @BeforeClass
@@ -43,10 +45,10 @@ public class GetMaleEmploymentDataTaskTest extends ActivityInstrumentationTestCa
     public final void testSuccessfulFetch() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
 
-        runTestOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                new GetMaleEmploymentDataTask(getActivity()){
+                new GetUnemploymentPercentagesTask(getActivity()){
                     @Override
                     protected Void doInBackground(String... params) {
                         called = true;
@@ -59,11 +61,11 @@ public class GetMaleEmploymentDataTaskTest extends ActivityInstrumentationTestCa
                         assertNotNull("Progress Employment Entry was null", dataEntries[0]);
                         DataBank dataBank = DataBank.getDataBank(getInstrumentation().getContext());
                         assertNotNull("Employment Entry was not added to data bank",
-                                      dataBank.getEmploymentEntries().get(0));
+                                dataBank.getUnemploymentPercentages().get(0));
                     }
-                }.execute(URL);
+                }.execute(MALE_UNEMPLOYMENT_URL);
             }
-        });
+        }).run();
 
         signal.await(10, TimeUnit.SECONDS);
         assertTrue(called);

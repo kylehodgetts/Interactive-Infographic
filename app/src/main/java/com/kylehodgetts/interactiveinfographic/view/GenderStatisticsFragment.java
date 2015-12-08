@@ -2,7 +2,6 @@ package com.kylehodgetts.interactiveinfographic.view;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kylehodgetts.interactiveinfographic.R;
-import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 
 import java.util.ArrayList;
@@ -22,6 +20,13 @@ import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.PieChartView;
 
+/**
+ * @author Kyle Hodgetts
+ * @author Svetoslav Mechev
+ * @version 1.0
+ * Fragment to display unemployment data for a given year based on Gender and comparison on the
+ * previous year
+ */
 public class GenderStatisticsFragment extends Fragment {
 
 

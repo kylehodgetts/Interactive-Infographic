@@ -10,7 +10,9 @@ import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 import com.kylehodgetts.interactiveinfographic.view.GenderStatisticsFragment;
 
 /**
- * Created by kylehodgetts on 07/12/2015.
+ * @author Kyle Hodgetts
+ * @version 1.0
+ * AsyncTask that retrieves the Employment data from the World Bank API
  */
 public class GetUnemploymentPercentagesTask extends GetDataTask {
     private static final String CACHE_FILE = "unemployment.txt";
@@ -58,7 +60,6 @@ public class GetUnemploymentPercentagesTask extends GetDataTask {
         context.getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.gender_statistics, genderStatisticsFragment)
-                .addToBackStack(null)
                 .commit();
     }
 }

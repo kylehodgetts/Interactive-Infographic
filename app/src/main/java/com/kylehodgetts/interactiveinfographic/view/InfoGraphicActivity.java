@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.kylehodgetts.interactiveinfographic.R;
 import com.kylehodgetts.interactiveinfographic.controller.data.GetEducationDataTask;
@@ -54,13 +53,11 @@ public class InfoGraphicActivity extends FragmentActivity
 
     @Override
     public void onYearSelected(int position) {
-        Toast.makeText(this, "POINT SELECTED AT " + position, Toast.LENGTH_SHORT).show();
         GenderStatisticsFragment genderStatisticsFragment = new GenderStatisticsFragment();
         genderStatisticsFragment.setArguments(setGenderStats(position));
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.gender_statistics, genderStatisticsFragment)
-                .addToBackStack(null)
                 .commit();
     }
 
