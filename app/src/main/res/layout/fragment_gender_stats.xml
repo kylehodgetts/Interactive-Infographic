@@ -62,15 +62,18 @@
 
         <lecho.lib.hellocharts.view.PieChartView
             android:id="@+id/pie_chart"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"/>
 
         <LinearLayout
             android:id="@+id/gender_section"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/pie_chart">
+            android:layout_below="@+id/pie_chart"
+            >
 
             <RelativeLayout
                 android:id="@+id/female_section"

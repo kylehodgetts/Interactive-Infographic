@@ -2,6 +2,7 @@ package com.kylehodgetts.interactiveinfographic.view;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kylehodgetts.interactiveinfographic.R;
+import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.PieChartView;
 
 public class GenderStatisticsFragment extends Fragment {
+
+    private DataBank dataBank;
 
     private PieChartView chart;
     private PieChartData data;
@@ -40,16 +44,6 @@ public class GenderStatisticsFragment extends Fragment {
     public GenderStatisticsFragment() {}
 
     @Override
-    public void setArguments(Bundle args) {
-        super.setArguments(args);
-        prevDataEntry = (DataEntry) args.getSerializable("prevDataEntry");
-        dataEntry = (DataEntry) args.getSerializable("dataEntry");
-        maleDataEntry = (DataEntry) args.getSerializable("maleDataEntry");
-        femaleDataEntry = (DataEntry) args.getSerializable("femaleDataEntry");
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_gender_stats, container, false);
         chart = (PieChartView) rootView.findViewById(R.id.pie_chart);
@@ -59,11 +53,23 @@ public class GenderStatisticsFragment extends Fragment {
         currentText = (TextView) rootView.findViewById(R.id.current_text);
         femaleStat = (TextView) rootView.findViewById(R.id.female_stat);
         maleStat = (TextView) rootView.findViewById(R.id.male_stat);
-        setComparison();
-        generatePieData();
         return rootView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        dataBank = DataBank.getDataBank(getActivity().getApplicationContext());
+        Bundle args = getArguments();
+        if(args != null) {
+            prevDataEntry = (DataEntry) args.getSerializable("prevDataEntry");
+            dataEntry = (DataEntry) args.getSerializable("dataEntry");
+            maleDataEntry = (DataEntry) args.getSerializable("maleDataEntry");
+            femaleDataEntry = (DataEntry) args.getSerializable("femaleDataEntry");
+            setComparison();
+            generatePieData();
+        }
+    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setComparison() {

@@ -5,11 +5,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.kylehodgetts.interactiveinfographic.R;
+import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 import com.kylehodgetts.interactiveinfographic.view.ComboChartFragment;
+import com.kylehodgetts.interactiveinfographic.view.GenderStatisticsFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,10 +24,8 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DecimalFormat;
 
 /**
  * @author Kyle Hodgetts
@@ -81,7 +82,6 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
                 .beginTransaction()
                 .replace(R.id.container, new ComboChartFragment())
                 .commit();
-
     }
 
     private String readData(String urlName) throws Exception {
