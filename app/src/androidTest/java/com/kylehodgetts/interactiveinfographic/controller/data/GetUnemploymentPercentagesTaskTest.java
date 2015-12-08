@@ -6,8 +6,6 @@ import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 import com.kylehodgetts.interactiveinfographic.view.InfoGraphicActivity;
 
-import junit.framework.TestCase;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,7 +14,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by kylehodgetts on 08/12/2015.
+ * @author Kyle Hodgetts
+ * @version 1.0
+ * Tests that the unemployment data task fetcher runs as expected
  */
 public class GetUnemploymentPercentagesTaskTest extends ActivityInstrumentationTestCase2<InfoGraphicActivity> {
     private static final String MALE_UNEMPLOYMENT_URL =
