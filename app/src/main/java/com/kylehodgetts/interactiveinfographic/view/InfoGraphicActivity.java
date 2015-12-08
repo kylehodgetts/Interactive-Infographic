@@ -2,6 +2,8 @@ package com.kylehodgetts.interactiveinfographic.view;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.kylehodgetts.interactiveinfographic.R;
@@ -40,6 +42,8 @@ public class InfoGraphicActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_infographic);
 
         new GetEmploymentDataTask(this).execute(EMPLOYMENT_URL);
@@ -73,7 +77,7 @@ public class InfoGraphicActivity extends FragmentActivity
         catch(IndexOutOfBoundsException e) {
             prevDataEntry = dataEntry;
         }
-        
+
         bundle.putSerializable("dataEntry", dataEntry);
         bundle.putSerializable("prevDataEntry", prevDataEntry);
 
@@ -82,11 +86,11 @@ public class InfoGraphicActivity extends FragmentActivity
         DataEntry femaleDataEntry = null;
         for(DataEntry de : dataBank.getUnemploymentPercentages()){
             if(maleDataEntry == null && de.getYear() == year
-                                     && (de.getIndicator().contains("youth male"))) {
+                    && (de.getIndicator().contains("youth male"))) {
                 bundle.putSerializable("maleDataEntry", de);
             }
             else if(femaleDataEntry == null && de.getYear() == year
-                                            && (de.getIndicator().contains("youth female"))) {
+                    && (de.getIndicator().contains("youth female"))) {
                 bundle.putSerializable("femaleDataEntry", de);
             }
 

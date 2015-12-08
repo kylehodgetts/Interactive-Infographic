@@ -24,7 +24,6 @@ import lecho.lib.hellocharts.view.PieChartView;
 
 public class GenderStatisticsFragment extends Fragment {
 
-    private DataBank dataBank;
 
     private PieChartView chart;
     private PieChartData data;
@@ -59,7 +58,6 @@ public class GenderStatisticsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        dataBank = DataBank.getDataBank(getActivity().getApplicationContext());
         Bundle args = getArguments();
         if(args != null) {
             prevDataEntry = (DataEntry) args.getSerializable("prevDataEntry");
@@ -85,10 +83,12 @@ public class GenderStatisticsFragment extends Fragment {
     private void generatePieData() {
         ArrayList<SliceValue> sliceValues = new ArrayList<>();
         sliceValues.add(new SliceValue(maleDataEntry.getValue(), ChartUtils.COLOR_BLUE));
-        sliceValues.add(new SliceValue(femaleDataEntry.getValue(), ChartUtils.COLOR_VIOLET));
+        sliceValues.add(new SliceValue(femaleDataEntry.getValue(), getResources().getColor(R.color.femaleStat)));
         data = new PieChartData(sliceValues);
+        data.setHasCenterCircle(true);
+        data.setCenterText1(Integer.toString(maleDataEntry.getYear()));
         chart.setPieChartData(data);
-        maleStat.setText(Float.toString(maleDataEntry.getValue()));
-        femaleStat.setText(Float.toString(femaleDataEntry.getValue()));
+        maleStat.setText(Float.toString(maleDataEntry.getValue()) + "%");
+        femaleStat.setText(Float.toString(femaleDataEntry.getValue()) + "%");
     }
 }
