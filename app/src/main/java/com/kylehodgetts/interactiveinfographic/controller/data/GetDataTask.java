@@ -46,11 +46,11 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     protected Void doInBackground(String... params) {
         for(int i = 0; i < params.length; i++) {
             try {
-            /* Get JSON object, extracting the second array in the object, where the data is */
+                 /* Get JSON object, extracting the second array in the object, where the data is */
                 JSONArray array = new JSONArray(readData(params[i], i)).getJSONArray(1);
                 String previousDataValue = "0.0";
 
-            /* Iterate through JSONArray to parse values for each EmploymentEntry field */
+                /* Iterate through JSONArray to parse values for each EmploymentEntry field */
                 for (int j = 0; j < array.length(); j++) {
                     JSONObject data = array.getJSONObject(j);
                     String indicator = data.getJSONObject("indicator").getString("value");

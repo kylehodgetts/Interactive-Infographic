@@ -32,7 +32,6 @@ public class GenderStatisticsFragment extends Fragment {
 
 
     private PieChartView chart;
-    private PieChartData data;
     private DataEntry prevDataEntry;
     private DataEntry dataEntry;
     private DataEntry maleDataEntry;
@@ -50,7 +49,7 @@ public class GenderStatisticsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_gender_stats, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_gender_unemployment, container, false);
         chart = (PieChartView) rootView.findViewById(R.id.pie_chart);
         upArrow = (ImageView) rootView.findViewById(R.id.up_arrow);
         previousText = (TextView) rootView.findViewById(R.id.previous_text);
@@ -88,15 +87,16 @@ public class GenderStatisticsFragment extends Fragment {
 
     private void generatePieData() {
         ArrayList<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(femaleDataEntry.getValue(), getResources().getColor(R.color.femaleStat)));
+        sliceValues.add(new SliceValue(femaleDataEntry.getValue(),
+                                       getResources().getColor(R.color.femaleStat, null)));
         sliceValues.add(new SliceValue(maleDataEntry.getValue(), ChartUtils.COLOR_BLUE));
-        data = new PieChartData(sliceValues);
+        PieChartData data = new PieChartData(sliceValues);
         data.setHasCenterCircle(true);
         data.setCenterText1(Integer.toString(maleDataEntry.getYear()));
-        data.setCenterCircleColor(getResources().getColor(R.color.centerCircle));
+        data.setCenterCircleColor(getResources().getColor(R.color.centerCircle, null));
         data.setCenterText1Color(Color.WHITE);
         chart.setPieChartData(data);
-        maleStat.setText(Float.toString(maleDataEntry.getValue()) + "%");
-        femaleStat.setText(Float.toString(femaleDataEntry.getValue()) + "%");
+        maleStat.setText(String.format("%.1f%", maleDataEntry.getValue()));
+        femaleStat.setText(String.format("%.1f%", femaleDataEntry.getValue()));
     }
 }

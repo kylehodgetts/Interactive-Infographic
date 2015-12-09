@@ -79,19 +79,21 @@ public class InfoGraphicActivity extends FragmentActivity
         bundle.putSerializable("prevDataEntry", prevDataEntry);
 
         int year = dataEntry.getYear();
-        DataEntry maleDataEntry = null;
-        DataEntry femaleDataEntry = null;
+        boolean maleEntryAssigned = false;
+        boolean femaleEntryAssigned = false;
         for(DataEntry de : dataBank.getUnemploymentPercentages()){
-            if(maleDataEntry == null && de.getYear() == year
+            if(!maleEntryAssigned && de.getYear() == year
                     && (de.getIndicator().contains("youth male"))) {
+                maleEntryAssigned = true;
                 bundle.putSerializable("maleDataEntry", de);
             }
-            else if(femaleDataEntry == null && de.getYear() == year
+            else if(!femaleEntryAssigned && de.getYear() == year
                     && (de.getIndicator().contains("youth female"))) {
+                femaleEntryAssigned = true;
                 bundle.putSerializable("femaleDataEntry", de);
             }
 
-            if(maleDataEntry != null && femaleDataEntry != null) {
+            if(maleEntryAssigned && femaleEntryAssigned) {
                 break;
             }
         }

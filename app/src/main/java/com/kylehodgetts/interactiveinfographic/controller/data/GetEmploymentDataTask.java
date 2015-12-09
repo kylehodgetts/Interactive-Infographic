@@ -1,8 +1,6 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
