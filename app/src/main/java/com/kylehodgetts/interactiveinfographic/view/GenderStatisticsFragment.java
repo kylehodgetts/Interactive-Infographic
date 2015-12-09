@@ -88,12 +88,12 @@ public class GenderStatisticsFragment extends Fragment {
     private void generatePieData() {
         ArrayList<SliceValue> sliceValues = new ArrayList<>();
         sliceValues.add(new SliceValue(femaleDataEntry.getValue(),
-                                       getResources().getColor(R.color.femaleStat, null)));
+                                       getResources().getColor(R.color.femaleStat)));
         sliceValues.add(new SliceValue(maleDataEntry.getValue(), ChartUtils.COLOR_BLUE));
         PieChartData data = new PieChartData(sliceValues);
         data.setHasCenterCircle(true);
         data.setCenterText1(Integer.toString(maleDataEntry.getYear()));
-        data.setCenterCircleColor(getResources().getColor(R.color.centerCircle, null));
+        data.setCenterCircleColor(getResources().getColor(R.color.centerCircle));
         data.setCenterText1Color(Color.WHITE);
         chart.setPieChartData(data);
         maleStat.setText(String.format("%.1f%", maleDataEntry.getValue()));
