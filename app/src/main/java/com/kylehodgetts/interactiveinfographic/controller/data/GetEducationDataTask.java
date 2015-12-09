@@ -1,9 +1,6 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
@@ -25,7 +22,6 @@ public class GetEducationDataTask extends GetDataTask {
 
     @Override
     protected void onProgressUpdate(DataEntry... dataEntries) {
-        Log.d("pull: ", dataEntries[0].toString());
         DataBank.getDataBank(super.context).addEducationEntry(dataEntries[0]);
     }
 }

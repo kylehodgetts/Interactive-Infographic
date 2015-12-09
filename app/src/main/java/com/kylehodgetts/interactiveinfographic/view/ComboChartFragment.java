@@ -152,9 +152,7 @@ public class ComboChartFragment extends Fragment {
         public void onValueDeselected() {}
 
         @Override
-        public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
-
-        }
+        public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {}
 
         @Override
         public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
