@@ -2,6 +2,7 @@ package com.kylehodgetts.interactiveinfographic.view;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -81,8 +82,8 @@ public class GenderStatisticsFragment extends Fragment {
         } else {
             upArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_active, null));
         }
-        previousText.setText(Float.toString(prevDataEntry.getValue()));
-        currentText.setText(Float.toString(dataEntry.getValue()));
+        previousText.setText(String.format("%.1f (%d)", prevDataEntry.getValue(), prevDataEntry.getYear()));
+        currentText.setText(String.format("%.1f (%d)", dataEntry.getValue(), dataEntry.getYear()));
     }
 
     private void generatePieData() {
@@ -92,6 +93,8 @@ public class GenderStatisticsFragment extends Fragment {
         data = new PieChartData(sliceValues);
         data.setHasCenterCircle(true);
         data.setCenterText1(Integer.toString(maleDataEntry.getYear()));
+        data.setCenterCircleColor(getResources().getColor(R.color.centerCircle));
+        data.setCenterText1Color(Color.WHITE);
         chart.setPieChartData(data);
         maleStat.setText(Float.toString(maleDataEntry.getValue()) + "%");
         femaleStat.setText(Float.toString(femaleDataEntry.getValue()) + "%");
