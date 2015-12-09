@@ -88,8 +88,8 @@ public class GenderStatisticsFragment extends Fragment {
 
     private void generatePieData() {
         ArrayList<SliceValue> sliceValues = new ArrayList<>();
-        sliceValues.add(new SliceValue(maleDataEntry.getValue(), ChartUtils.COLOR_BLUE));
         sliceValues.add(new SliceValue(femaleDataEntry.getValue(), getResources().getColor(R.color.femaleStat)));
+        sliceValues.add(new SliceValue(maleDataEntry.getValue(), ChartUtils.COLOR_BLUE));
         data = new PieChartData(sliceValues);
         data.setHasCenterCircle(true);
         data.setCenterText1(Integer.toString(maleDataEntry.getYear()));

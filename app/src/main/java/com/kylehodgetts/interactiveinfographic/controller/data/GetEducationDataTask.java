@@ -25,7 +25,6 @@ public class GetEducationDataTask extends GetDataTask {
 
     @Override
     protected void onProgressUpdate(DataEntry... dataEntries) {
-        Log.d("pull: ", dataEntries[0].toString());
         DataBank.getDataBank(super.context).addEducationEntry(dataEntries[0]);
     }
 }

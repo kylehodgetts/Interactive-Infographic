@@ -5,14 +5,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.kylehodgetts.interactiveinfographic.R;
-import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 import com.kylehodgetts.interactiveinfographic.view.ComboChartFragment;
-import com.kylehodgetts.interactiveinfographic.view.GenderStatisticsFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,27 +32,27 @@ import java.net.URL;
  */
 public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     protected Activity context;
-    private String fileName;
+    private String[] fileNames;
 
     /**
      * Protected Constructor
      * @param context current application context
      */
-    protected GetDataTask(Activity context, String fileName) {
+    protected GetDataTask(Activity context, String... fileNames) {
         this.context = context;
-        this.fileName = fileName;
+        this.fileNames = fileNames;
     }
 
     protected Void doInBackground(String... params) {
-        for(String s : params) {
+        for(int i = 0; i < params.length; i++) {
             try {
             /* Get JSON object, extracting the second array in the object, where the data is */
-                JSONArray array = new JSONArray(readData(s)).getJSONArray(1);
+                JSONArray array = new JSONArray(readData(params[i], i)).getJSONArray(1);
                 String previousDataValue = "0.0";
 
             /* Iterate through JSONArray to parse values for each EmploymentEntry field */
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject data = array.getJSONObject(i);
+                for (int j = 0; j < array.length(); j++) {
+                    JSONObject data = array.getJSONObject(j);
                     String indicator = data.getJSONObject("indicator").getString("value");
                     String countryCode = data.getJSONObject("country").getString("id");
                     String country = data.getJSONObject("country").getString("value");
@@ -84,43 +81,44 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
                 .commit();
     }
 
-    private String readData(String urlName) throws Exception {
-        StringBuilder builder;
-        File file = new File(context.getCacheDir(), this.fileName);
+    private String readData(String urlName, int i) throws Exception {
+        StringBuilder builder = null;
+        File file = new File(context.getCacheDir(), this.fileNames[i]);
         /* Download data and cache */
         if(networkIsAvailable()) {
             Log.d("Network ", "is available");
             if(file.exists()) {
                 file.delete();
             }
-            file.createNewFile();
-
-            URL url = new URL(urlName);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoInput(true);
-            connection.connect();
-            BufferedReader in;
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine = in.readLine();
-            builder = new StringBuilder();
-            while (inputLine != null) {
-                builder.append(inputLine);
-                inputLine = in.readLine();
+            if(file.createNewFile()){
+                URL url = new URL(urlName);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setDoInput(true);
+                connection.connect();
+                BufferedReader in;
+                in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine = in.readLine();
+                builder = new StringBuilder();
+                while (inputLine != null) {
+                    builder.append(inputLine);
+                    inputLine = in.readLine();
+                }
+                in.close();
+                connection.disconnect();
+                ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
+                outputStream.writeObject(builder);
+                outputStream.flush();
+                outputStream.close();
             }
-            in.close();
-            connection.disconnect();
-            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
-            outputStream.writeObject(builder);
-            outputStream.flush();
-            outputStream.close();
         }
         /* Read from cache */
         else {
+            Log.d("Network ", "is not available");
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
             builder = (StringBuilder) objectInputStream.readObject();
         }
-        return(builder.toString());
+        return(builder != null ? builder.toString() : null);
     }
 
     /**

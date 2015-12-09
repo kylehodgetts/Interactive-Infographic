@@ -26,7 +26,6 @@ public class GetEmploymentDataTask extends GetDataTask {
 
     @Override
     protected void onProgressUpdate(DataEntry... dataEntries) {
-        Log.d("pull: ", dataEntries[0].toString());
         DataBank.getDataBank(super.context).addEmploymentEntry(dataEntries[0]);
     }
 
