@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,8 @@ public class ComboChartFragment extends Fragment {
     private Spinner yearSpinner;
     private SeekBar dataSeekBar;
     private ArrayAdapter yearAdapter;
-
+    private ArrayList<Float> manipulatedData = new ArrayList<>();
+    ArrayList<Float> originalValues = new ArrayList<>();
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
     private DataBank dataBank;
@@ -70,6 +72,9 @@ public class ComboChartFragment extends Fragment {
         dataSeekBar.setMax(30);
         dataSeekBar.setOnSeekBarChangeListener(new DataChangedListener());
 
+        for (int i = 0; i < dataBank.getEmploymentEntries().size(); ++i){
+            originalValues.add(dataBank.getEmploymentEntries().get(i).getValue());
+        }
         return rootView;
     }
 
@@ -111,6 +116,7 @@ public class ComboChartFragment extends Fragment {
         int dataSize = employment.size();
         for(int i = 0; i < dataBank.getEmploymentEntries().size(); i++) {
             points.add(new PointValue(i, dataBank.getEmploymentEntries().get((dataSize - 1) - i).getValue()));
+            manipulatedData.add(dataBank.getEmploymentEntries().get((dataSize - 1) - i).getValue());
         }
         Line line = new Line();
         line.setValues(points);
@@ -157,7 +163,7 @@ public class ComboChartFragment extends Fragment {
             int year = Integer.parseInt((String) parent.getItemAtPosition(position));
             for(DataEntry dataEntry : dataBank.getEducationEntries()) {
                 if(dataEntry.getYear() == year) {
-                    dataSeekBar.setProgress((int) dataEntry.getValue());
+                    dataSeekBar.setProgress(4);
                     dataSeekBar.invalidate();
                 }
             }
@@ -173,19 +179,43 @@ public class ComboChartFragment extends Fragment {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            double yearEmploymentDown= 1;
             int year = Integer.parseInt(yearSpinner.getSelectedItem().toString());
+            if (year > 1990){
+                yearEmploymentDown = 3.2;
+            }
+            if (year > 1993){
+                yearEmploymentDown = 3.4;
+            }
+            if (year > 2001){
+                yearEmploymentDown = 4;
+            }
+            if (year > 2008){
+                yearEmploymentDown = 5.5;
+            }
             for(int i = 0; i < dataBank.getEducationEntries().size(); i++) {
                 if(dataBank.getEducationEntries().get(i).getYear() == year) {
                     dataBank.getEducationEntries().get(i).setValue(progress);
+                    if (progress == 4) {
+                        dataBank.getEmploymentEntries().get(i).setValue(originalValues.get(i));
+                    }else if (progress > 4) {
+                        String loweredEmploymentRate = ((manipulatedData.get(i) / progress) * yearEmploymentDown + "");
+                        dataBank.getEmploymentEntries().get(i).setValue(Float.parseFloat(loweredEmploymentRate));
+                    }else if (progress < 4){
+                        String increasedEmploymentRate = ((manipulatedData.get(i) / progress) * (progress+0.15) + "");
+                        dataBank.getEmploymentEntries().get(i).setValue(Float.parseFloat(increasedEmploymentRate));
+                    }
                     ComboChartFragment.this.renderData();
                 }
             }
+
         }
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {}
 
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {}
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
     }
 }
