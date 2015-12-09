@@ -14,7 +14,10 @@ import android.widget.TextView;
 import com.kylehodgetts.interactiveinfographic.R;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
@@ -96,7 +99,9 @@ public class GenderStatisticsFragment extends Fragment {
         data.setCenterCircleColor(getResources().getColor(R.color.centerCircle));
         data.setCenterText1Color(Color.WHITE);
         chart.setPieChartData(data);
-        maleStat.setText(String.format("%.1f%", maleDataEntry.getValue()));
-        femaleStat.setText(String.format("%.1f%", femaleDataEntry.getValue()));
+        DecimalFormat decimalFormat = new DecimalFormat("#.#",
+                                        DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+        maleStat.setText(String.format("%s%%", decimalFormat.format(maleDataEntry.getValue())));
+        femaleStat.setText(String.format("%s%%", decimalFormat.format(femaleDataEntry.getValue())));
     }
 }
