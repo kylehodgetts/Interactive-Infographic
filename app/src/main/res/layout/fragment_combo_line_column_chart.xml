@@ -1,63 +1,37 @@
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/dataChangeSection"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
+        <Spinner
+            android:id="@+id/yearSpinner"
+            android:layout_width="193dp"
+            android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+        <SeekBar
+            android:id="@+id/dataSeeker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:orientation="horizontal">
+        <TextView
+            android:id="@+id/txtDataValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-                <Spinner
-                    android:id="@+id/yearSpinner"
-                    android:layout_width="193dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/dataSeeker" />
+    </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/dataSeeker"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_weight="2"
-                    />
-
-                <TextView
-                    android:id="@+id/txtDataValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <lecho.lib.hellocharts.view.ComboLineColumnChartView
-                android:id="@+id/chart"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="0dp"
-                android:layout_weight="1" />
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
+    <lecho.lib.hellocharts.view.ComboLineColumnChartView
+        android:id="@+id/chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dataChangeSection"/>
 </RelativeLayout>
