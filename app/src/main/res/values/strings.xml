@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Interactive Infographic</string>
     <string name="test">Test Text</string>
+    <string name="swipe">SWIPE</string>
+    <string name="pull_arrow">Pull arrow</string>
+    <string name="pulloutarrow">Pull out drawer arrow</string>
     <string-array name="years">
         <item>1991</item>
         <item>1992</item>
