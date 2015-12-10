@@ -57,13 +57,13 @@ public class GetUnemploymentPercentagesTask extends GetDataTask {
         final GenderStatisticsFragment genderStatisticsFragment = new GenderStatisticsFragment();
         genderStatisticsFragment.setArguments(bundle);
 
-        new Handler().post(new Runnable() {
+        new Thread(new Runnable() {
             public void run() {
                 context.getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.gender_statistics, genderStatisticsFragment)
                         .commit();
             }
-        });
+        }).run();
     }
 }

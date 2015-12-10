@@ -42,13 +42,13 @@ public class GetEducationDataTask extends GetDataTask {
 
         final InvestmentStatisticsFragment investmentStatisticsFragment = new InvestmentStatisticsFragment();
         investmentStatisticsFragment.setArguments(bundle);
-        new Handler().post(new Runnable() {
+        new Thread(new Runnable() {
             public void run() {
                 context.getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.education_statistics, investmentStatisticsFragment)
                         .commit();
             }
-        });
+        }).run();
     }
 }

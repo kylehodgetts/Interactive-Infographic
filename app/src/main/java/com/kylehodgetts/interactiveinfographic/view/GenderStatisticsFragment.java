@@ -67,13 +67,7 @@ public class GenderStatisticsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Bundle args = getArguments();
-        if(args != null) {
-            updateBundle(args);
-        }
-    }
-
-    public void updateBundle(Bundle bundle) {
+        Bundle bundle = getArguments();
         if(bundle != null) {
             prevDataEntry = (DataEntry) bundle.getSerializable("prevDataEntry");
             dataEntry = (DataEntry) bundle.getSerializable("dataEntry");
@@ -87,11 +81,11 @@ public class GenderStatisticsFragment extends Fragment {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setComparison() {
         if(dataEntry.getValue() > prevDataEntry.getValue()) {
-            downArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_active, null));
             upArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_inactive, null));
+            downArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_active, null));
         } else {
-            downArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_inactive, null));
             upArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_active, null));
+            downArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_inactive, null));
         }
         previousText.setText(String.format("%.1f (%d)", prevDataEntry.getValue(), prevDataEntry.getYear()));
         currentText.setText(String.format("%.1f (%d)", dataEntry.getValue(), dataEntry.getYear()));
@@ -109,18 +103,9 @@ public class GenderStatisticsFragment extends Fragment {
         data.setCenterText1Color(Color.WHITE);
         data.setCenterText1FontSize(20);
         chart.setPieChartData(data);
-        prepareDataAnimation();
-        chart.startDataAnimation();
         DecimalFormat decimalFormat = new DecimalFormat("#.#",
                                         DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         maleStat.setText(String.format("%s%%", decimalFormat.format(maleDataEntry.getValue())));
         femaleStat.setText(String.format("%s%%", decimalFormat.format(femaleDataEntry.getValue())));
-    }
-
-    private void prepareDataAnimation() {
-        for(SliceValue sliceValue : data.getValues()) {
-            sliceValue.setTarget(7);
-            chart.startDataAnimation();
-        }
     }
 }
