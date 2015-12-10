@@ -2,16 +2,11 @@ package com.kylehodgetts.interactiveinfographic.view;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 
 import com.kylehodgetts.interactiveinfographic.R;
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
@@ -40,16 +35,14 @@ import lecho.lib.hellocharts.view.ComboLineColumnChartView;
 public class ComboChartFragment extends Fragment {
     OnYearSelectedListener callback;
 
-    private Spinner yearSpinner;
-    private SeekBar dataSeekBar;
-
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
     private DataBank dataBank;
     private ArrayList<AxisValue> axisValues;
 
     public interface OnYearSelectedListener {
-        void onYearSelected(int position);
+        void onPointSelected(int position);
+        void onColumnSelected(int position);
     }
 
     public ComboChartFragment() {}
@@ -68,17 +61,6 @@ public class ComboChartFragment extends Fragment {
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         renderData();
-        yearSpinner = (Spinner) rootView.findViewById(R.id.yearSpinner);
-        dataSeekBar = (SeekBar) rootView.findViewById(R.id.dataSeeker);
-        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
-                R.array.years,
-                R.layout.spinner_item);
-        arrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        yearSpinner.setAdapter(arrayAdapter);
-        yearSpinner.setOnItemSelectedListener(new YearChangeListener());
-        dataSeekBar.setMax(30);
-        dataSeekBar.setOnSeekBarChangeListener(new DataChangedListener());
-
         return rootView;
     }
 
@@ -111,8 +93,8 @@ public class ComboChartFragment extends Fragment {
 
     private ColumnChartData renderColumnData() {
         int numberOfColumns = dataBank.getEducationEntries().size();
-        axisValues = new ArrayList();
-        ArrayList<Column> columns = new ArrayList();
+        axisValues = new ArrayList<>();
+        ArrayList<Column> columns = new ArrayList<>();
         ArrayList education = dataBank.getEducationEntries();
         int dataSize = education.size();
         for(int i = 0; i < numberOfColumns; i++) {
@@ -152,48 +134,13 @@ public class ComboChartFragment extends Fragment {
         public void onValueDeselected() {}
 
         @Override
-        public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {}
+        public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+            callback.onColumnSelected(columnIndex);
+        }
 
         @Override
         public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            callback.onYearSelected(pointIndex);
+            callback.onPointSelected(pointIndex);
         }
-    }
-
-    private class YearChangeListener implements AdapterView.OnItemSelectedListener {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            int year = Integer.parseInt((String) parent.getItemAtPosition(position));
-            for(DataEntry dataEntry : dataBank.getEducationEntries()) {
-                if(dataEntry.getYear() == year) {
-                    dataSeekBar.setProgress((int) dataEntry.getValue());
-                    dataSeekBar.invalidate();
-                }
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {}
-    }
-
-    private class DataChangedListener implements SeekBar.OnSeekBarChangeListener {
-
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            int year = Integer.parseInt(yearSpinner.getSelectedItem().toString());
-            for(int i = 0; i < dataBank.getEducationEntries().size(); i++) {
-                if(dataBank.getEducationEntries().get(i).getYear() == year) {
-                    dataBank.getEducationEntries().get(i).setValue(progress);
-                    ComboChartFragment.this.renderData();
-                }
-            }
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {}
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {}
     }
 }

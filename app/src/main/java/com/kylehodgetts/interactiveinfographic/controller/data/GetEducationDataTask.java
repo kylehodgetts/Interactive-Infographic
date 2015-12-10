@@ -1,9 +1,12 @@
 package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.app.Activity;
+import android.os.Bundle;
 
+import com.kylehodgetts.interactiveinfographic.R;
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
+import com.kylehodgetts.interactiveinfographic.view.InvestmentStatisticsFragment;
 
 /**
  * @author Kyle Hodgetts
@@ -23,5 +26,22 @@ public class GetEducationDataTask extends GetDataTask {
     @Override
     protected void onProgressUpdate(DataEntry... dataEntries) {
         DataBank.getDataBank(super.context).addEducationEntry(dataEntries[0]);
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        DataBank dataBank = DataBank.getDataBank(super.context);
+        int firstEducationEntry = dataBank.getEducationEntries().size() - 1;
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("prevDataEntry", dataBank.getEmploymentEntries().get(firstEducationEntry));
+        bundle.putSerializable("dataEntry", dataBank.getEmploymentEntries().get(firstEducationEntry));
+
+        InvestmentStatisticsFragment investmentStatisticsFragment = new InvestmentStatisticsFragment();
+        investmentStatisticsFragment.setArguments(bundle);
+        context.getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.education_statistics, investmentStatisticsFragment)
+                .commit();
     }
 }
