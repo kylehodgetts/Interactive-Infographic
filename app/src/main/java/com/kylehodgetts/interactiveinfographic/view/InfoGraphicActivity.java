@@ -53,13 +53,15 @@ public class InfoGraphicActivity extends FragmentActivity
 
     @Override
     public void onPointSelected(int position) {
-        GenderStatisticsFragment genderStatisticsFragment = new GenderStatisticsFragment();
-        genderStatisticsFragment.setArguments(setGenderStats(position));
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.gender_statistics, genderStatisticsFragment)
-                .commit();
-
+        GenderStatisticsFragment genderStatisticsFragment =
+                (GenderStatisticsFragment) getFragmentManager().findFragmentById(R.id.gender_statistics);
+        Bundle bundle = genderStatisticsFragment.getArguments();
+        Bundle newArgs = setGenderStats(position);
+        bundle.putSerializable("dataEntry", newArgs.getSerializable("dataEntry"));
+        bundle.putSerializable("prevDataEntry", newArgs.getSerializable("prevDataEntry"));
+        bundle.putSerializable("maleDataEntry", newArgs.getSerializable("maleDataEntry"));
+        bundle.putSerializable("femaleDataEntry", newArgs.getSerializable("femaleDataEntry"));
+        genderStatisticsFragment.updateBundle(bundle);
     }
 
     @Override

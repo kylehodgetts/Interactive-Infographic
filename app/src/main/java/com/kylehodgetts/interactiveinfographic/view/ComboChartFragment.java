@@ -88,7 +88,6 @@ public class ComboChartFragment extends Fragment {
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(axisY);
         chart.setComboLineColumnChartData(data);
-        chart.invalidate();
     }
 
     private ColumnChartData renderColumnData() {

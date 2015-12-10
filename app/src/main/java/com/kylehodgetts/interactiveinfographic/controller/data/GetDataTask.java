@@ -76,14 +76,14 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        new Handler().post(new Runnable() {
+        new Thread(new Runnable() {
             public void run() {
                 context.getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.container, new ComboChartFragment())
                         .commit();
             }
-        });
+        }).run();
     }
 
     private String readData(String urlName, int i) throws Exception {
