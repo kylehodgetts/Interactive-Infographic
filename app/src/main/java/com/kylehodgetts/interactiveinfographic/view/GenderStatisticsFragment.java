@@ -98,6 +98,7 @@ public class GenderStatisticsFragment extends Fragment {
         data.setCenterText1(Integer.toString(maleDataEntry.getYear()));
         data.setCenterCircleColor(getResources().getColor(R.color.centerCircle));
         data.setCenterText1Color(Color.WHITE);
+        data.setCenterText1FontSize(20);
         chart.setPieChartData(data);
         DecimalFormat decimalFormat = new DecimalFormat("#.#",
                                         DecimalFormatSymbols.getInstance(Locale.ENGLISH));

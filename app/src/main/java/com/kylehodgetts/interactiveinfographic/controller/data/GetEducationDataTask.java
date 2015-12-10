@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.kylehodgetts.interactiveinfographic.R;
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
-import com.kylehodgetts.interactiveinfographic.view.GenderStatisticsFragment;
 import com.kylehodgetts.interactiveinfographic.view.InvestmentStatisticsFragment;
 
 /**
@@ -31,6 +30,7 @@ public class GetEducationDataTask extends GetDataTask {
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
         DataBank dataBank = DataBank.getDataBank(super.context);
         int firstEducationEntry = dataBank.getEducationEntries().size() - 1;
         Bundle bundle = new Bundle();

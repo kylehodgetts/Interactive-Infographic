@@ -2,37 +2,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/border">
+    android:layout_margin="5dp"
+    android:background="@drawable/border"
+    >
 
-    <LinearLayout
-        android:id="@+id/dataChangeSection"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/swipe"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15dp">
-
-        <Spinner
-            android:id="@+id/yearSpinner"
-            android:layout_width="193dp"
-            android:layout_height="wrap_content" />
-
-        <SeekBar
-            android:id="@+id/dataSeeker"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            />
-
-        <TextView
-            android:id="@+id/txtDataValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+        android:text="@string/swipe_prompt"
+        android:layout_marginRight="2.5dp"
+        android:textColor="@color/white"
+        android:layout_alignParentRight="true"/>
 
     <lecho.lib.hellocharts.view.ComboLineColumnChartView
         android:id="@+id/chart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dataChangeSection"/>
+        android:layout_below="@id/swipe"
+        />
 </RelativeLayout>

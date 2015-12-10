@@ -2,48 +2,65 @@
 <android.support.v4.widget.DrawerLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:background="@drawable/border"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/relativeLayout">
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
 
-        <FrameLayout
-            android:id="@+id/gender_statistics"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
             xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="650dp"
-            android:layout_height="match_parent"
-            tools:ignore="MergeRootFrame"
-            android:layout_above="@+id/container"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"/>
+            android:id="@+id/relativeLayout">
 
-        <FrameLayout
-            android:id="@+id/education_statistics"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="650dp"
-            android:layout_height="match_parent"
-            android:layout_alignRight="@+id/gender_statistics"
-            android:layout_alignEnd="@+id/gender_statistics"
-            android:layout_above="@+id/container"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            tools:ignore="MergeRootFrame" />
+            <FrameLayout
+                android:id="@+id/gender_statistics"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                tools:ignore="MergeRootFrame"
+                />
+
+            <FrameLayout
+                android:id="@+id/education_statistics"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                tools:ignore="MergeRootFrame"
+                />
+
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/container"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="0dp"
             tools:context="lecho.lib.hellocharts.samples.ComboLineColumnChartActivity"
-            android:layout_alignParentBottom="true"
-            tools:ignore="MergeRootFrame" />
-    </RelativeLayout>
+            tools:ignore="MergeRootFrame"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="250dp"
         android:layout_height="match_parent"
