@@ -52,4 +52,11 @@ public class DataBankTest extends InstrumentationTestCase {
     public void testGetEmploymentEntries() throws Exception {
         assertNotNull("EmploymentEntries ArrayList was null", dataBank.getEmploymentEntries());
     }
+
+    @Test
+    public void testAddUnemploymentPercentageEntry() throws Exception {
+        dataBank.addUnemploymentPercentageEntry(new DataEntry("a", "b", "c", 1, 2));
+        assertNotNull("UnemploymentArrayList was null", dataBank.getEmploymentEntries());
+        assertNotNull("Added Unemployment Entry returned null", dataBank.getUnemploymentPercentages().get(0));
+    }
 }

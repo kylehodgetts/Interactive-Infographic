@@ -88,4 +88,13 @@ public class DataEntryTest extends TestCase {
         assertFalse(dataEntry.getCountryCode().equals(currentCountryCode));
         assertEquals("Different values were returned for country code", newCountryCode, dataEntry.getCountryCode());
     }
+
+    @Test
+    public void testSetIndicator() throws Exception {
+        String currentIndicator = dataEntry.getIndicator();
+        String newIndicator = "New Indicator";
+        dataEntry.setIndicator(newIndicator);
+        assertFalse(dataEntry.getIndicator().equals(currentIndicator));
+        assertEquals("Different values returned for indicator", newIndicator, dataEntry.getIndicator());
+    }
 }
