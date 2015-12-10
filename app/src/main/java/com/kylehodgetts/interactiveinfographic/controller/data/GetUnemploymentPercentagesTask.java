@@ -26,15 +26,26 @@ public class GetUnemploymentPercentagesTask extends GetDataTask {
         super(context, MALE_CACHE_FILE, FEMALE_CACHE_FILE);
     }
 
+    /**
+     * Add the published <code>DataEntry</code> to <code>DataBank</code>
+     * @param dataEntries published <code>DataEntry</code>
+     */
     @Override
     protected void onProgressUpdate(DataEntry... dataEntries) {
         DataBank.getDataBank(super.context).addUnemploymentPercentageEntry(dataEntries[0]);
     }
 
+    /**
+     * Attaches <code>GenderStatisticsFragment</code>
+     * when data is available
+     * @param aVoid void
+     */
     @Override
     protected void onPostExecute(Void aVoid) {
         DataBank dataBank = DataBank.getDataBank(super.context);
         int firstEmploymentEntry = dataBank.getEmploymentEntries().size() - 1;
+
+        //Fragment arguments require Bundle
         Bundle bundle = new Bundle();
         bundle.putSerializable("prevDataEntry", dataBank.getEmploymentEntries().get(firstEmploymentEntry));
         bundle.putSerializable("dataEntry", dataBank.getEmploymentEntries().get(firstEmploymentEntry));
@@ -54,9 +65,9 @@ public class GetUnemploymentPercentagesTask extends GetDataTask {
         bundle.putSerializable("maleDataEntry", maleDataEntry);
         bundle.putSerializable("femaleDataEntry", femaleDataEntry);
 
+        // Replace old fragment with a new one with the updated arguments
         final GenderStatisticsFragment genderStatisticsFragment = new GenderStatisticsFragment();
         genderStatisticsFragment.setArguments(bundle);
-
         new Thread(new Runnable() {
             public void run() {
                 context.getFragmentManager()

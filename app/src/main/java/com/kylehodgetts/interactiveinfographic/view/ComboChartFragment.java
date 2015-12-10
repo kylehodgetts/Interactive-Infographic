@@ -40,17 +40,34 @@ public class ComboChartFragment extends Fragment {
     private DataBank dataBank;
     private ArrayList<AxisValue> axisValues;
 
+    /**
+     * Callback interface for communication between Fragments and hosting Activity
+     */
     public interface OnYearSelectedListener {
+        /**
+         * Invoked when a point entry is selected
+         * @param position point that was selected
+         */
         void onPointSelected(int position);
+
+        /**
+         * Invoked when a column entry is selected
+         * @param position column that was selected
+         */
         void onColumnSelected(int position);
     }
 
+    /**
+     * Default constructor
+     */
     public ComboChartFragment() {}
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Retrieve DataBank in current state
         dataBank = DataBank.getDataBank(getActivity().getApplicationContext());
     }
 
