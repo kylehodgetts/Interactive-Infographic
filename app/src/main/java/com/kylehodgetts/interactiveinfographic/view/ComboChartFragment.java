@@ -2,7 +2,6 @@ package com.kylehodgetts.interactiveinfographic.view;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;

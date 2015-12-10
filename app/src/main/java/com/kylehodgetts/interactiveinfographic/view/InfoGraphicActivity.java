@@ -48,7 +48,6 @@ public class InfoGraphicActivity extends FragmentActivity
         new GetEmploymentDataTask(this).execute(EMPLOYMENT_URL);
         new GetEducationDataTask(this).execute(EDUCATION_URL);
         new GetUnemploymentPercentagesTask(this).execute(MALE_UNEMPLOYMENT_URL, FEMALE_UNEMPLOYMENT_URL);
-        dataBank = DataBank.getDataBank(this);
     }
 
     @Override
@@ -61,7 +60,7 @@ public class InfoGraphicActivity extends FragmentActivity
                 .commit();
     }
 
-    public Bundle setGenderStats(int index) {
+    private Bundle setGenderStats(int index) {
         dataBank = DataBank.getDataBank(this);
         Bundle bundle = new Bundle();
         DataEntry dataEntry, prevDataEntry;

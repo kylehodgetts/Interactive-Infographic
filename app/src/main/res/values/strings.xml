@@ -4,6 +4,7 @@
     <string name="swipe">SWIPE</string>
     <string name="pull_arrow">Pull arrow</string>
     <string name="pulloutarrow">Pull out drawer arrow</string>
+    <string name="unemployment_male_female">Unemployment Male/Female %</string>
     <string-array name="years">
         <item>1991</item>
         <item>1992</item>
