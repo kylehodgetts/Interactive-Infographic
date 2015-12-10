@@ -1,6 +1,5 @@
 package com.kylehodgetts.interactiveinfographic.view;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
@@ -13,10 +12,22 @@ import com.kylehodgetts.interactiveinfographic.controller.data.GetUnemploymentPe
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 
-import lecho.lib.hellocharts.model.PieChartData;
-
+/**
+ * @author Kyle Hodgetts
+ * @author Tolga Cakici
+ * @author Tautvilas Simkus
+ * @author Svetoslav Mechev
+ * @author Bau Nguyen
+ * @author Mofe Omatsone
+ * @version 1.5
+ *
+ * Main launch activity and fragment host
+ */
 public class InfoGraphicActivity extends FragmentActivity
         implements ComboChartFragment.OnYearSelectedListener {
+
+    private GenderStatisticsFragment genderStatisticsFragment;
+    private InvestmentStatisticsFragment investmentStatisticsFragment;
 
     private DataBank dataBank;
 
@@ -40,23 +51,36 @@ public class InfoGraphicActivity extends FragmentActivity
                     "indicators/SE.XPD.TOTL.GD.ZS?&" +
                     "date=1991:2011&format=json";
 
+    private GetEmploymentDataTask getEmploymentDataTask;
+    private GetEducationDataTask getEducationDataTask;
+    private GetUnemploymentPercentagesTask getUnemploymentPercentagesTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Prevents top bar from displaying
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_infographic);
 
-        new GetEmploymentDataTask(this).execute(EMPLOYMENT_URL);
-        new GetEducationDataTask(this).execute(EDUCATION_URL);
-        new GetUnemploymentPercentagesTask(this).execute(MALE_UNEMPLOYMENT_URL, FEMALE_UNEMPLOYMENT_URL);
+        getEmploymentDataTask = new GetEmploymentDataTask(this);
+        getEmploymentDataTask.execute(EMPLOYMENT_URL);
+        getEducationDataTask = new GetEducationDataTask(this);
+        getEducationDataTask.execute(EDUCATION_URL);
+        getUnemploymentPercentagesTask = new GetUnemploymentPercentagesTask(this);
+        getUnemploymentPercentagesTask.execute(MALE_UNEMPLOYMENT_URL, FEMALE_UNEMPLOYMENT_URL);
     }
 
 
+    /**
+     * Callback method for point selection
+     * @param position point that was selected
+     */
     @Override
     public void onPointSelected(int position) {
-        GenderStatisticsFragment genderStatisticsFragment = new GenderStatisticsFragment();
+        // Attach updated fragment
+        genderStatisticsFragment = new GenderStatisticsFragment();
         genderStatisticsFragment.setArguments(setGenderStats(position));
         getFragmentManager()
                 .beginTransaction()
@@ -64,9 +88,14 @@ public class InfoGraphicActivity extends FragmentActivity
                 .commit();
     }
 
+    /**
+     * Callback method for column selection
+     * @param position column that was selected
+     */
     @Override
     public void onColumnSelected(int position) {
-        InvestmentStatisticsFragment investmentStatisticsFragment = new InvestmentStatisticsFragment();
+        // Attach updated fragment
+        investmentStatisticsFragment = new InvestmentStatisticsFragment();
         investmentStatisticsFragment.setArguments(setEducationStats(position));
         getFragmentManager()
                 .beginTransaction()
@@ -75,10 +104,18 @@ public class InfoGraphicActivity extends FragmentActivity
     }
 
     private Bundle setEducationStats(int index) {
+        // Get DataBank in current state
         dataBank = DataBank.getDataBank(this);
+
+        // Bundle to be returned for GenderStatisticsFragment
         Bundle bundle = new Bundle();
         DataEntry dataEntry, prevDataEntry;
+
+        // Get the selected Point
         dataEntry = dataBank.getEducationEntries().get((dataBank.getEducationEntries().size() - 1) - index);
+
+        // Attempt to get the previous point
+        // If an exception is thrown, then selected point was at index 0
         try{
             prevDataEntry = dataBank.getEducationEntries()
                     .get((dataBank.getEducationEntries().size() - 1) - (index - 1));
@@ -94,11 +131,19 @@ public class InfoGraphicActivity extends FragmentActivity
     }
 
     private Bundle setGenderStats(int index) {
+        // Get DataBank in current state
         dataBank = DataBank.getDataBank(this);
+
+        // Bundle to be returned for InvestmentStatisticsFragment
         Bundle bundle = new Bundle();
         DataEntry dataEntry, prevDataEntry;
+
+        // Get the selected Point
         dataEntry = dataBank.getEmploymentEntries()
                 .get((dataBank.getEmploymentEntries().size() - 1) - index);
+
+        // Attempt to get the previous point
+        // If an exception is thrown, then selected point was at index 0
         try{
             prevDataEntry = dataBank.getEmploymentEntries()
                     .get((dataBank.getEmploymentEntries().size() - 1) - (index - 1));
@@ -113,6 +158,8 @@ public class InfoGraphicActivity extends FragmentActivity
         int year = dataEntry.getYear();
         boolean maleEntryAssigned = false;
         boolean femaleEntryAssigned = false;
+
+        // Iterate through Gender Entries to find entries for the selected year
         for(DataEntry de : dataBank.getUnemploymentPercentages()){
             if(!maleEntryAssigned && de.getYear() == year
                     && (de.getIndicator().contains("youth male"))) {

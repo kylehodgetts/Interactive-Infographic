@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.Log;
 
 import com.kylehodgetts.interactiveinfographic.R;
@@ -45,6 +44,7 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     }
 
     protected Void doInBackground(String... params) {
+        //For each url passed in
         for(int i = 0; i < params.length; i++) {
             try {
                  /* Get JSON object, extracting the second array in the object, where the data is */
@@ -53,11 +53,13 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
 
                 /* Iterate through JSONArray to parse values for each EmploymentEntry field */
                 for (int j = 0; j < array.length(); j++) {
+                    //Retrieve JSON and fields
                     JSONObject data = array.getJSONObject(j);
                     String indicator = data.getJSONObject("indicator").getString("value");
                     String countryCode = data.getJSONObject("country").getString("id");
                     String country = data.getJSONObject("country").getString("value");
                     String value = data.getString("value");
+                    // If no value is provided for the given year, assume value is the same
                     if(value.equals("null") || value.equals("0.00")) {
                         value = previousDataValue;
                     }
@@ -73,6 +75,11 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
         return null;
     }
 
+    /**
+     * Attaches <code>ComboChartFragment</code>
+     * to current context when data is available
+     * @param aVoid void
+     */
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);

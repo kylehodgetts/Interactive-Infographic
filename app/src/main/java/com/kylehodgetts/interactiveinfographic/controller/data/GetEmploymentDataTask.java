@@ -22,6 +22,10 @@ public class GetEmploymentDataTask extends GetDataTask {
         super(context, CACHE_FILE);
     }
 
+    /**
+     * Add the published <code>DataEntry</code> to <code>DataBank</code>
+     * @param dataEntries published <code>DataEntry</code>
+     */
     @Override
     protected void onProgressUpdate(DataEntry... dataEntries) {
         DataBank.getDataBank(super.context).addEmploymentEntry(dataEntries[0]);
