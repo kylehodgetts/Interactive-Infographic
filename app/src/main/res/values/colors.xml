@@ -6,4 +6,5 @@
     <color name="femaleStat">#FA5858</color>
     <color name="centerCircle">#FACC2E</color>
     <color name="white">#FFF</color>
+    <color name="backgroundColour">#2F2F2F</color>
 </resources>
