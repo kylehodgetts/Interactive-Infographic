@@ -1,5 +1,6 @@
 package com.kylehodgetts.interactiveinfographic.view;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
@@ -11,6 +12,8 @@ import com.kylehodgetts.interactiveinfographic.controller.data.GetEmploymentData
 import com.kylehodgetts.interactiveinfographic.controller.data.GetUnemploymentPercentagesTask;
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
 import com.kylehodgetts.interactiveinfographic.model.DataEntry;
+
+import lecho.lib.hellocharts.model.PieChartData;
 
 public class InfoGraphicActivity extends FragmentActivity
         implements ComboChartFragment.OnYearSelectedListener {
@@ -59,7 +62,6 @@ public class InfoGraphicActivity extends FragmentActivity
                 .beginTransaction()
                 .replace(R.id.gender_statistics, genderStatisticsFragment)
                 .commit();
-
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.kylehodgetts.interactiveinfographic.R;
 import com.kylehodgetts.interactiveinfographic.model.DataBank;
@@ -15,8 +16,10 @@ import com.kylehodgetts.interactiveinfographic.view.InvestmentStatisticsFragment
  */
 public class GetEducationDataTask extends GetDataTask {
     private static final String CACHE_FILE = "education.txt";
+
     /**
      * Default Constructor
+     *
      * @param context current application context
      */
     public GetEducationDataTask(Activity context) {
@@ -37,11 +40,15 @@ public class GetEducationDataTask extends GetDataTask {
         bundle.putSerializable("prevDataEntry", dataBank.getEmploymentEntries().get(firstEducationEntry));
         bundle.putSerializable("dataEntry", dataBank.getEmploymentEntries().get(firstEducationEntry));
 
-        InvestmentStatisticsFragment investmentStatisticsFragment = new InvestmentStatisticsFragment();
+        final InvestmentStatisticsFragment investmentStatisticsFragment = new InvestmentStatisticsFragment();
         investmentStatisticsFragment.setArguments(bundle);
-        context.getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.education_statistics, investmentStatisticsFragment)
-                .commit();
+        new Thread(new Runnable() {
+            public void run() {
+                context.getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.education_statistics, investmentStatisticsFragment)
+                        .commit();
+            }
+        }).run();
     }
 }

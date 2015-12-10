@@ -35,6 +35,7 @@ public class GenderStatisticsFragment extends Fragment {
 
 
     private PieChartView chart;
+    private PieChartData data;
     private DataEntry prevDataEntry;
     private DataEntry dataEntry;
     private DataEntry maleDataEntry;
@@ -66,12 +67,12 @@ public class GenderStatisticsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Bundle args = getArguments();
-        if(args != null) {
-            prevDataEntry = (DataEntry) args.getSerializable("prevDataEntry");
-            dataEntry = (DataEntry) args.getSerializable("dataEntry");
-            maleDataEntry = (DataEntry) args.getSerializable("maleDataEntry");
-            femaleDataEntry = (DataEntry) args.getSerializable("femaleDataEntry");
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+            prevDataEntry = (DataEntry) bundle.getSerializable("prevDataEntry");
+            dataEntry = (DataEntry) bundle.getSerializable("dataEntry");
+            maleDataEntry = (DataEntry) bundle.getSerializable("maleDataEntry");
+            femaleDataEntry = (DataEntry) bundle.getSerializable("femaleDataEntry");
             setComparison();
             generatePieData();
         }
@@ -80,9 +81,11 @@ public class GenderStatisticsFragment extends Fragment {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setComparison() {
         if(dataEntry.getValue() > prevDataEntry.getValue()) {
+            upArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_inactive, null));
             downArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_active, null));
         } else {
             upArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_active, null));
+            downArrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_inactive, null));
         }
         previousText.setText(String.format("%.1f (%d)", prevDataEntry.getValue(), prevDataEntry.getYear()));
         currentText.setText(String.format("%.1f (%d)", dataEntry.getValue(), dataEntry.getYear()));
@@ -91,9 +94,9 @@ public class GenderStatisticsFragment extends Fragment {
     private void generatePieData() {
         ArrayList<SliceValue> sliceValues = new ArrayList<>();
         sliceValues.add(new SliceValue(femaleDataEntry.getValue(),
-                                       getResources().getColor(R.color.femaleStat)));
-        sliceValues.add(new SliceValue(maleDataEntry.getValue(), ChartUtils.COLOR_BLUE));
-        PieChartData data = new PieChartData(sliceValues);
+                                       getResources().getColor(R.color.femaleStat)).setTarget(femaleDataEntry.getValue()));
+        sliceValues.add(new SliceValue(maleDataEntry.getValue(), ChartUtils.COLOR_BLUE).setTarget(maleDataEntry.getValue()));
+        data = new PieChartData(sliceValues);
         data.setHasCenterCircle(true);
         data.setCenterText1(Integer.toString(maleDataEntry.getYear()));
         data.setCenterCircleColor(getResources().getColor(R.color.centerCircle));

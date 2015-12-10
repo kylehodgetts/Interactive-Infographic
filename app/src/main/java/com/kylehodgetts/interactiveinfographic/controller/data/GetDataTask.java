@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 
 import com.kylehodgetts.interactiveinfographic.R;
@@ -75,22 +76,26 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        context.getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, new ComboChartFragment())
-                .commit();
+        new Thread(new Runnable() {
+            public void run() {
+                context.getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new ComboChartFragment())
+                        .commit();
+            }
+        }).run();
     }
 
     private String readData(String urlName, int i) throws Exception {
         StringBuilder builder = null;
         File file = new File(context.getCacheDir(), this.fileNames[i]);
         /* Download data and cache */
-        if(networkIsAvailable()) {
+        if (networkIsAvailable()) {
             Log.d("Network ", "is available");
-            if(file.exists()) {
+            if (file.exists()) {
                 file.delete();
             }
-            if(file.createNewFile()){
+            if (file.createNewFile()) {
                 URL url = new URL(urlName);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
@@ -118,7 +123,7 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
             builder = (StringBuilder) objectInputStream.readObject();
         }
-        return(builder != null ? builder.toString() : null);
+        return (builder != null ? builder.toString() : null);
     }
 
     /**

@@ -26,5 +26,4 @@ public class GetEmploymentDataTask extends GetDataTask {
     protected void onProgressUpdate(DataEntry... dataEntries) {
         DataBank.getDataBank(super.context).addEmploymentEntry(dataEntries[0]);
     }
-
 }
