@@ -83,7 +83,7 @@ public class ComboChartFragment extends Fragment {
         Axis axisX = new Axis();
         Axis axisY = new Axis();
         axisX.setName("Year");
-        axisY.setName("Value");
+        axisY.setName("Percentage %");
         axisX.setValues(axisValues);
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(axisY);

@@ -6,7 +6,7 @@
     <string name="pulloutarrow">Pull out drawer arrow</string>
     <string name="unemployment_male_female">Unemployment Male/Female %</string>
     <string name="title">Education Expenditure vs Unemployment (UK)</string>
-    <string name="government_title">Government Expenditure by Party</string>
+    <string name="government_title">Education Expenditure by Party</string>
     <string name="swipe_prompt">Swipe left for key</string>
     <string name="green_arrow_info">Green arrow indicates that selected data is better than the previous year.</string>
     <string name="red_arrow_info">Red arrow indicates that selected data is worse than the previous year.</string>
