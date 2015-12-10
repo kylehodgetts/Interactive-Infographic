@@ -48,7 +48,8 @@ public class ComboChartFragment extends Fragment {
     private ArrayList<AxisValue> axisValues;
 
     public interface OnYearSelectedListener {
-        void onYearSelected(int position);
+        void onPointSelected(int position);
+        void onColumnSelected(int position);
     }
 
     public ComboChartFragment() {}
@@ -151,11 +152,13 @@ public class ComboChartFragment extends Fragment {
         public void onValueDeselected() {}
 
         @Override
-        public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {}
+        public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+            callback.onColumnSelected(columnIndex);
+        }
 
         @Override
         public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            callback.onYearSelected(pointIndex);
+            callback.onPointSelected(pointIndex);
         }
     }
 

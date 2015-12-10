@@ -50,14 +50,45 @@ public class InfoGraphicActivity extends FragmentActivity
         new GetUnemploymentPercentagesTask(this).execute(MALE_UNEMPLOYMENT_URL, FEMALE_UNEMPLOYMENT_URL);
     }
 
+
     @Override
-    public void onYearSelected(int position) {
+    public void onPointSelected(int position) {
         GenderStatisticsFragment genderStatisticsFragment = new GenderStatisticsFragment();
         genderStatisticsFragment.setArguments(setGenderStats(position));
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.gender_statistics, genderStatisticsFragment)
                 .commit();
+
+    }
+
+    @Override
+    public void onColumnSelected(int position) {
+        InvestmentStatisticsFragment investmentStatisticsFragment = new InvestmentStatisticsFragment();
+        investmentStatisticsFragment.setArguments(setEducationStats(position));
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.education_statistics, investmentStatisticsFragment)
+                .commit();
+    }
+
+    private Bundle setEducationStats(int index) {
+        dataBank = DataBank.getDataBank(this);
+        Bundle bundle = new Bundle();
+        DataEntry dataEntry, prevDataEntry;
+        dataEntry = dataBank.getEducationEntries().get((dataBank.getEducationEntries().size() - 1) - index);
+        try{
+            prevDataEntry = dataBank.getEducationEntries()
+                    .get((dataBank.getEducationEntries().size() - 1) - (index - 1));
+        }
+        catch(IndexOutOfBoundsException e) {
+            prevDataEntry = dataEntry;
+        }
+
+        bundle.putSerializable("dataEntry", dataEntry);
+        bundle.putSerializable("prevDataEntry", prevDataEntry);
+
+        return bundle;
     }
 
     private Bundle setGenderStats(int index) {
