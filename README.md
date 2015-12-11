@@ -6,6 +6,39 @@
 * Bau
 * Svetoslav
 * Tautvilas
+* Mofe
+
+## Screencast Checklist
+
+- [ ] Talk about reason for choosing data type
+
+    * Mention that Teachers, Students and Education ministers are our target audience
+    * We are covering the UK only
+    * The data spans between 1991 - 2011
+
+- [ ] Basic display of data
+
+    * Explain our choice of data, pull out drawer component and show key and information
+    * State difference between red line and green columns
+
+- [ ] Press a point on the red line
+
+    * Explain how the left fragment shows the unemployment data for that year
+    * Show the comparison arrows and pie chart to do with male and female unemployment
+    
+- [ ] Press a green column
+
+    * Do the same for Education investment
+    * Show the logo for government party changing based on year
+    
+- [ ] Data Caching
+
+    * Turn off wifi/mobile data
+    * Relaunch app
+    * Speak about how the data is loaded from the Application's Android cache directory
+    * Mention that we felt an SQL database would be overkill for an application of this size
+    * More efficient to store the response string in a string buffer to be interpreted as normal
+      if wifi or mobile data isn't available
 
 ## Development
 - Meet during lab times to work on features
