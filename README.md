@@ -10,7 +10,7 @@
 
 ## Screencast Checklist
 
--[ ] Talk about reason for choosing data type
+- [ ] Talk about reason for choosing data type
 
     * Mention that Teachers, Students and Education ministers are our target audience
     * We are covering the UK only
