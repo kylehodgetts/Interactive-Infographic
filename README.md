@@ -16,22 +16,22 @@
     * We are covering the UK only
     * The data spans between 1991 - 2011
 
--[ ] Basic display of data
+- [ ] Basic display of data
 
     * Explain our choice of data, pull out drawer component and show key and information
     * State difference between red line and green columns
 
--[ ] Press a point on the red line
+- [ ] Press a point on the red line
 
     * Explain how the left fragment shows the unemployment data for that year
     * Show the comparison arrows and pie chart to do with male and female unemployment
     
--[ ] Press a green column
+- [ ] Press a green column
 
     * Do the same for Education investment
     * Show the logo for government party changing based on year
     
--[ ] Data Caching
+- [ ] Data Caching
 
     * Turn off wifi/mobile data
     * Relaunch app
