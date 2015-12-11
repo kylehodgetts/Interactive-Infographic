@@ -144,6 +144,14 @@ public class ComboChartFragment extends Fragment {
         return new LineChartData(lines);
     }
 
+    public ComboLineColumnChartView getChart() {
+        return chart;
+    }
+
+    public ComboLineColumnChartData getData() {
+        return data;
+    }
+
     private class ValueTouchListener implements ComboLineColumnChartOnValueSelectListener {
 
         @Override

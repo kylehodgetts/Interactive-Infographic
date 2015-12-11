@@ -62,6 +62,14 @@ public class InvestmentStatisticsFragment extends Fragment {
         setPartyImage();
     }
 
+    public DataEntry getDataEntry() {
+        return dataEntry;
+    }
+
+    public DataEntry getPrevDataEntry() {
+        return prevDataEntry;
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setComparison() {
         if(dataEntry.getValue() >= prevDataEntry.getValue()) {
