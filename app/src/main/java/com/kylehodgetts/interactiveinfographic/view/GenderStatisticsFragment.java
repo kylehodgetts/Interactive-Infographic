@@ -36,6 +36,7 @@ public class GenderStatisticsFragment extends Fragment {
 
 
     private PieChartView chart;
+    private PieChartData data;
     private DataEntry prevDataEntry;
     private DataEntry dataEntry;
     private DataEntry maleDataEntry;
@@ -78,6 +79,14 @@ public class GenderStatisticsFragment extends Fragment {
         }
     }
 
+    public PieChartView getChart() {
+        return chart;
+    }
+
+    public PieChartData getData() {
+        return data;
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setComparison() {
         // Set the active comparison arrow
@@ -100,7 +109,7 @@ public class GenderStatisticsFragment extends Fragment {
         sliceValues.add(new SliceValue(maleDataEntry.getValue(), ChartUtils.COLOR_BLUE).setTarget(maleDataEntry.getValue()));
 
         // Chart data and properties
-        PieChartData data = new PieChartData(sliceValues);
+        data = new PieChartData(sliceValues);
         data.setHasCenterCircle(true);
         data.setCenterText1(Integer.toString(maleDataEntry.getYear()));
         data.setCenterCircleColor(getResources().getColor(R.color.centerCircle));
