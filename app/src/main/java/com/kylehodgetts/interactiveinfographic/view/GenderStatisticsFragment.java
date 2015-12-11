@@ -2,6 +2,7 @@ package com.kylehodgetts.interactiveinfographic.view;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
