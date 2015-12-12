@@ -17,7 +17,8 @@ import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 /**
  * @author Kyle Hodgetts
  * @version 1.0
- *
+ * Fragment which displays Education Investment Data for the given year, comparing it to the
+ * previous year and displaying the logo of the governing party
  */
 public class InvestmentStatisticsFragment extends Fragment {
 
@@ -63,13 +64,17 @@ public class InvestmentStatisticsFragment extends Fragment {
         setPartyImage();
     }
 
+    /**
+     *
+     * @return Current <code>DataEntry</code>
+     */
     public DataEntry getDataEntry() {
         return dataEntry;
     }
 
     /**
      *
-     * @return
+     * @return  <code>DataEntry</code> from the previous year
      */
     public DataEntry getPrevDataEntry() {
         return prevDataEntry;
