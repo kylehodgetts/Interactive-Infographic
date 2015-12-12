@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,10 +67,17 @@ public class InvestmentStatisticsFragment extends Fragment {
         return dataEntry;
     }
 
+    /**
+     *
+     * @return
+     */
     public DataEntry getPrevDataEntry() {
         return prevDataEntry;
     }
 
+    /**
+     * Activate correct comparison arrow
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setComparison() {
         if(dataEntry.getValue() >= prevDataEntry.getValue()) {
@@ -81,16 +89,21 @@ public class InvestmentStatisticsFragment extends Fragment {
         currentText.setText(String.format("%.1f (%d)", dataEntry.getValue(), dataEntry.getYear()));
     }
 
+    /**
+     * Set governing party image depending on year
+     */
     private void setPartyImage() {
         switch (year) {
             case 1997:
             case 2001:
             case 2005:
-                partyImage.setImageDrawable(getResources().getDrawable(R.drawable.labour_logo));
+                partyImage.setImageDrawable(ContextCompat.getDrawable(getActivity(),
+                                            R.drawable.labour_logo));
                 break;
 
             default:
-                partyImage.setImageDrawable(getResources().getDrawable(R.drawable.conservatives_logo));
+                partyImage.setImageDrawable(ContextCompat.getDrawable(getActivity(),
+                                            R.drawable.conservatives_logo));
                 break;
         }
     }
