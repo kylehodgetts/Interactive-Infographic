@@ -127,8 +127,8 @@ public class ComboChartFragment extends Fragment {
 
     private LineChartData renderLineData() {
         // Only one line
-        ArrayList<Line> lines = new ArrayList();
-        ArrayList<PointValue> points = new ArrayList();
+        ArrayList<Line> lines = new ArrayList<>();
+        ArrayList<PointValue> points = new ArrayList<>();
         ArrayList employment = dataBank.getEmploymentEntries();
         int dataSize = employment.size();
         for(int i = 0; i < dataBank.getEmploymentEntries().size(); i++) {

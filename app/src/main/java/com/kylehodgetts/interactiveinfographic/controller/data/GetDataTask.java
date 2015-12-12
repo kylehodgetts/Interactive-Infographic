@@ -100,28 +100,29 @@ public abstract class GetDataTask extends AsyncTask<String, DataEntry, Void> {
         if (networkIsAvailable()) {
             Log.d("Network ", "is available");
             if (file.exists()) {
-                file.delete();
-            }
-            if (file.createNewFile()) {
-                URL url = new URL(urlName);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setDoInput(true);
-                connection.connect();
-                BufferedReader in;
-                in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine = in.readLine();
-                builder = new StringBuilder();
-                while (inputLine != null) {
-                    builder.append(inputLine);
-                    inputLine = in.readLine();
+                if (file.delete()) {
+                    if (file.createNewFile()) {
+                        URL url = new URL(urlName);
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");
+                        connection.setDoInput(true);
+                        connection.connect();
+                        BufferedReader in;
+                        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String inputLine = in.readLine();
+                        builder = new StringBuilder();
+                        while (inputLine != null) {
+                            builder.append(inputLine);
+                            inputLine = in.readLine();
+                        }
+                        in.close();
+                        connection.disconnect();
+                        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
+                        outputStream.writeObject(builder);
+                        outputStream.flush();
+                        outputStream.close();
+                    }
                 }
-                in.close();
-                connection.disconnect();
-                ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
-                outputStream.writeObject(builder);
-                outputStream.flush();
-                outputStream.close();
             }
         }
         /* Read from cache */
