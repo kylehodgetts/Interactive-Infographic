@@ -2,6 +2,7 @@ package com.kylehodgetts.interactiveinfographic.view;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -82,15 +83,16 @@ public class ComboChartFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception.
         try {
+            Activity activity = (Activity) context;
             callback = (OnYearSelectedListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement OnHeadlineSelectedListener");
         }
     }
@@ -125,8 +127,8 @@ public class ComboChartFragment extends Fragment {
 
     private LineChartData renderLineData() {
         // Only one line
-        ArrayList<Line> lines = new ArrayList();
-        ArrayList<PointValue> points = new ArrayList();
+        ArrayList<Line> lines = new ArrayList<>();
+        ArrayList<PointValue> points = new ArrayList<>();
         ArrayList employment = dataBank.getEmploymentEntries();
         int dataSize = employment.size();
         for(int i = 0; i < dataBank.getEmploymentEntries().size(); i++) {
@@ -144,10 +146,18 @@ public class ComboChartFragment extends Fragment {
         return new LineChartData(lines);
     }
 
+    /**
+     *
+     * @return <code>ComboChartFragment</code> chart
+     */
     public ComboLineColumnChartView getChart() {
         return chart;
     }
 
+    /**
+     *
+     * @return <code>ComboChartFragment</code> data
+     */
     public ComboLineColumnChartData getData() {
         return data;
     }

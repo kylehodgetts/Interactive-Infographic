@@ -26,9 +26,6 @@ import com.kylehodgetts.interactiveinfographic.model.DataEntry;
 public class InfoGraphicActivity extends FragmentActivity
         implements ComboChartFragment.OnYearSelectedListener {
 
-    private GenderStatisticsFragment genderStatisticsFragment;
-    private InvestmentStatisticsFragment investmentStatisticsFragment;
-
     private DataBank dataBank;
 
     private static final String EMPLOYMENT_URL =
@@ -51,9 +48,6 @@ public class InfoGraphicActivity extends FragmentActivity
                     "indicators/SE.XPD.TOTL.GD.ZS?&" +
                     "date=1991:2011&format=json";
 
-    private GetEmploymentDataTask getEmploymentDataTask;
-    private GetEducationDataTask getEducationDataTask;
-    private GetUnemploymentPercentagesTask getUnemploymentPercentagesTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +58,11 @@ public class InfoGraphicActivity extends FragmentActivity
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_infographic);
 
-        getEmploymentDataTask = new GetEmploymentDataTask(this);
-        getEmploymentDataTask.execute(EMPLOYMENT_URL);
-        getEducationDataTask = new GetEducationDataTask(this);
-        getEducationDataTask.execute(EDUCATION_URL);
-        getUnemploymentPercentagesTask = new GetUnemploymentPercentagesTask(this);
-        getUnemploymentPercentagesTask.execute(MALE_UNEMPLOYMENT_URL, FEMALE_UNEMPLOYMENT_URL);
+
+        new GetEmploymentDataTask(this).execute(EMPLOYMENT_URL);
+        new GetEducationDataTask(this).execute(EDUCATION_URL);
+        new GetUnemploymentPercentagesTask(this).execute(MALE_UNEMPLOYMENT_URL,
+                                                         FEMALE_UNEMPLOYMENT_URL);
     }
 
 
@@ -80,7 +73,7 @@ public class InfoGraphicActivity extends FragmentActivity
     @Override
     public void onPointSelected(int position) {
         // Attach updated fragment
-        genderStatisticsFragment = new GenderStatisticsFragment();
+        GenderStatisticsFragment genderStatisticsFragment = new GenderStatisticsFragment();
         genderStatisticsFragment.setArguments(setGenderStats(position));
         getFragmentManager()
                 .beginTransaction()
@@ -95,7 +88,7 @@ public class InfoGraphicActivity extends FragmentActivity
     @Override
     public void onColumnSelected(int position) {
         // Attach updated fragment
-        investmentStatisticsFragment = new InvestmentStatisticsFragment();
+        InvestmentStatisticsFragment investmentStatisticsFragment = new InvestmentStatisticsFragment();
         investmentStatisticsFragment.setArguments(setEducationStats(position));
         getFragmentManager()
                 .beginTransaction()

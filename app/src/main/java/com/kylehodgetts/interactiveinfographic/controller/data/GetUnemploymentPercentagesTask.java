@@ -2,7 +2,6 @@ package com.kylehodgetts.interactiveinfographic.controller.data;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 
 import com.kylehodgetts.interactiveinfographic.R;
 import com.kylehodgetts.interactiveinfographic.model.DataBank;

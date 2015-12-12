@@ -1,5 +1,12 @@
 # Project Walk
 
+Using data from the [World Data Bank](http://data.worldbank.org/), the infographic displays trends
+in UK unemployment for youths in the age range of 15-24 in contrast to Government expenditure in education
+for given years, ranging from 1991 - 2011.
+
+![alt text](http://i.imgur.com/6N5BeIN.png "InfoGraphic Display")
+
+
 ### Team Members
 * Kyle
 * Tolga
